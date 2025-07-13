@@ -4,29 +4,28 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 
-
-
-
 const PasswordReset = () => {
 
     const navigate = useNavigate();
-
     const [restData, setRestData] = useState({
         email: '',
         password: ''
     })
+
     function handleChange(e) {
         setRestData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
     // console.log(restData)
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+    
     async function handleSubmit(e) {
         e.preventDefault();
 
         try {
             const response = await axios({
                 method: 'post',
-                url: 'http://localhost:3000/password/reset',
+                url: `${BASE_URL}/password/reset`,
                 data: restData
             })
             const { message, error, success } = response.data

@@ -17,12 +17,15 @@ const Login = () => {
         setLoginData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+
+
     async function handleSubmit(e) {
         e.preventDefault();
         try {
             const response = await axios({
                 method: "post",
-                url: 'http://localhost:3000/auth/login',
+                url: `${BASE_URL}/auth/login`,
                 data: loginData
             })
 

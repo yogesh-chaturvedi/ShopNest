@@ -17,6 +17,9 @@ const Product = () => {
 
     // console.log(selectedSize)
 
+
+    const BASE_URL = import.meta.env.VITE_API_URL
+
     // to add items in cart 
     async function addToCart(itemToAdd) {
 
@@ -25,7 +28,7 @@ const Product = () => {
             const newItem = { ...itemToAdd, selectedSize, quantity: 1 }
             const response = await axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/cart',
+                url: `${BASE_URL}/api/cart`,
                 headers: {
                     Authorization: token
                 },

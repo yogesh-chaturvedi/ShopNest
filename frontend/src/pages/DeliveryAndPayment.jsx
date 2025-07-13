@@ -15,6 +15,7 @@ const DeliveryAndPayment = () => {
     const [payment, setPayment] = useState(null)
 
     const [totalPrice, setTotalPrice] = useState(0)
+const BASE_URL = import.meta.env.VITE_API_URL
 
 
     // adding the delivery fee and subtotal 
@@ -47,7 +48,7 @@ const DeliveryAndPayment = () => {
             const token = JSON.parse(localStorage.getItem("token"))
             const response = await axios({
                 method: 'delete',
-                url: 'http://localhost:3000/api/remove-allItem',
+                url: `${BASE_URL}/api/remove-allItem`,
                 headers: {
                     Authorization: token
                 },
@@ -88,7 +89,7 @@ const DeliveryAndPayment = () => {
             try {
                 const resopnse = await axios({
                     method: 'post',
-                    url: 'http://localhost:3000/orders/save',
+                    url: `${BASE_URL}/orders/save`,
                     headers: {
                         Authorization: token
                     },
@@ -138,7 +139,7 @@ const DeliveryAndPayment = () => {
 
                 const response = await axios({
                     method: 'post',
-                    url: 'http://localhost:3000/payment/create-checkout-session',
+                    url: `${BASE_URL}/payment/create-checkout-session`,
                     data: { cartItems }
                 })
                 console.log(response.data)

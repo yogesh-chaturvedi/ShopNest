@@ -32,6 +32,8 @@ const Success = () => {
         }
     }
 
+const BASE_URL = import.meta.env.VITE_API_URL
+
     useEffect(() => {
         async function placeOrderAfterPayment() {
             if (hasPlacedOrder.current) return;
@@ -47,7 +49,7 @@ const Success = () => {
 
                 const response = await axios({
                     method: 'post',
-                    url: 'http://localhost:3000/orders/save',
+                    url: `${BASE_URL}/orders/save`,
                     headers: {
                         Authorization: token
                     },

@@ -9,6 +9,8 @@ const ProductContextProvider = (props) => {
 
     const currency = '₹'
     const [allProducts, setAllProducts] = useState([])
+    const BASE_URL = import.meta.env.VITE_API_URL
+
 
     useEffect(() => {
 
@@ -16,7 +18,7 @@ const ProductContextProvider = (props) => {
             try {
                 const response = await axios({
                     method: 'get',
-                    url: 'http://localhost:3000/dashboard/all',
+                    url: `${BASE_URL}/dashboard/all`,
                 })
                 // console.log(response.data.product)
                 const { product, success, message } = response.data

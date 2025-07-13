@@ -22,6 +22,8 @@ const CartContextProvider = (props) => {
     }, [cartItems])
 
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+
     // to add cart items in usestate 
     useEffect(() => {
         async function getCartData() {
@@ -29,7 +31,7 @@ const CartContextProvider = (props) => {
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await axios({
                     method: "get",
-                    url: 'http://localhost:3000/api/cart',
+                    url: `${BASE_URL}/api/cart`,
                     headers: {
                         Authorization: token
                     }

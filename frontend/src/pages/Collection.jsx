@@ -92,6 +92,7 @@ function Collection() {
     window.addEventListener('resize', screenResize)
     return () => window.removeEventListener('resize', screenResize)
   }, [])
+  
 
   // to make it reusable 
   function FilterContent() {

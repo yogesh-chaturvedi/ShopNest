@@ -12,13 +12,15 @@ const Cart = () => {
     const { cartItems, setCartItems, deliveryFee, currency, subTotal, setSubTotal } = useContext(CartContext)
     const navigate = useNavigate()
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+
     // function to delete items from cart 
     async function handleDelete(itemId, itemSize) {
         try {
             const token = JSON.parse(localStorage.getItem('token'))
             const response = await axios({
                 method: 'delete',
-                url: 'http://localhost:3000/api/cart',
+                url: `${BASE_URL}/api/cart`,
                 headers: {
                     Authorization: token
                 },
@@ -52,7 +54,7 @@ const Cart = () => {
             const token = JSON.parse(localStorage.getItem('token'))
             const response = await axios({
                 method: 'put',
-                url: 'http://localhost:3000/api/cart',
+                url: `${BASE_URL}/api/cart`,
                 headers: {
                     Authorization: token
                 },

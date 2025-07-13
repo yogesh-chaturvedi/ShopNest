@@ -81,6 +81,8 @@ function Navbar() {
         }
     }
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+
     // to filter acc to the search text
     useEffect(() => {
         if (location.pathname.includes("collection")) {
@@ -88,7 +90,7 @@ function Navbar() {
                 try {
                     const response = await axios({
                         method: 'get',
-                        url: `http://localhost:3000/search/products/?query=${searchedText}`,
+                        url: `${BASE_URL}/search/products/?query=${searchedText}`,
                     })
                     const { message, success, searchedProduct, error } = response.data
                     if (success) {
@@ -121,8 +123,6 @@ function Navbar() {
         handleVisibility()
 
     }, [cartItems])
-
-
 
     function handleSideBar() {
         if (sidebar === false) {
