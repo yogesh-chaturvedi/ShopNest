@@ -27,8 +27,8 @@ router.post('/create-checkout-session', async (req, res) => {
             payment_method_types: ['card'],
             line_items,
             mode: 'payment',
-            success_url: 'https://shopnest-backend-e4eh.onrender.com/success',
-            cancel_url: 'https://shopnest-backend-e4eh.onrender.com/cancel'
+            success_url: 'https://shop-nest-livid.vercel.app/success',
+            cancel_url: 'https://shop-nest-livid.vercel.app/cancel'
         })
         res.json({ id: session.id })
     }
