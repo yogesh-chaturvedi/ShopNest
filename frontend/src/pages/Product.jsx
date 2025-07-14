@@ -25,6 +25,21 @@ const Product = () => {
 
         try {
             const token = JSON.parse(localStorage.getItem("token"))
+            // to ensure that user do not add product without selecting its size;
+            if (selectedSize === null) {
+                toast('Please Select Size', {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                return;
+            }
+
             const newItem = { ...itemToAdd, selectedSize, quantity: 1 }
             const response = await axios({
                 method: 'post',
