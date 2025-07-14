@@ -124,16 +124,7 @@ const Product = () => {
                     {/*right*/}
                     <div className="right w-full sm:w-[60%] lg:w-[50%] flex flex-col gap-4 p-4">
 
-                        <div className='flex flex-col gap-2'>
-                            <h1 className='font-bold text-2xl'>{productName}</h1>
-                            <div className="stars flex gap-1 text-yellow-500 text-lg">
-                                <i className="fa-regular fa-star"></i>
-                                <i className="fa-regular fa-star"></i>
-                                <i className="fa-regular fa-star"></i>
-                                <i className="fa-regular fa-star"></i>
-                                <i className="fa-regular fa-star"></i>
-                            </div>
-                        </div>
+                            <h1 className='font-bold text-2xl mb-2'>{productName}</h1>
 
                         {/* price */}
                         <div className="productPrice font-bold text-2xl">{value.currency}{productPrice}</div>
