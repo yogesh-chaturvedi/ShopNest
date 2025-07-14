@@ -11,12 +11,14 @@ const Success = () => {
     const naviagte = useNavigate()
     const hasPlacedOrder = useRef(false)
 
+    const BASE_URL = import.meta.env.VITE_API_URL
+
     async function deleteCartItem() {
         try {
             const token = JSON.parse(localStorage.getItem("token"))
             const response = await axios({
                 method: 'delete',
-                url: 'http://localhost:3000/api/remove-allItem',
+                url: `${BASE_URL}/api/remove-allItem`,
                 headers: {
                     Authorization: token
                 }
@@ -32,7 +34,6 @@ const Success = () => {
         }
     }
 
-const BASE_URL = import.meta.env.VITE_API_URL
 
     useEffect(() => {
         async function placeOrderAfterPayment() {
@@ -89,16 +90,19 @@ const BASE_URL = import.meta.env.VITE_API_URL
 
 
     return (
-        <div className='flex items-center justify-center bg-green-200 min-h-screen '>
+        <div className='flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200 min-h-screen'>
 
-            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored" />
 
-            <div className="box border border-black bg-green-500 text-center p-5 rounded-2xl h-[190px] w-[300px]">
-                <h1 className='font-bold text-2xl '>Payment Successfull</h1>
-                <p className="mt-4 text-lg">Thank you for your order.</p>
-                <button onClick={() => { handleNavigation() }} className='text-xl font-bold px-2 py-1 pb-1 cursor-pointer bg-blue-700 rounded-2xl mt-6'>Go To Home</button>
+            <div className="box border border-green-400 bg-white text-center p-6 rounded-2xl shadow-xl h-[200px] w-[320px]">
+                <h1 className='font-bold text-2xl text-green-700'>Payment Successful!</h1>
+                <p className="mt-4 text-gray-700 text-lg">Thank you for your order.</p>
+                <button onClick={() => { handleNavigation() }} className='text-white text-lg font-semibold px-4 py-2 mt-6 bg-green-600 hover:bg-green-700 transition-colors duration-200 rounded-xl'>
+                    Go To Home
+                </button>
             </div>
         </div>
+
     )
 }
 
