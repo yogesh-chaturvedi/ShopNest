@@ -63,12 +63,12 @@ const PasswordReset = () => {
     }
 
     return (
-        <div className='min-h-screen flex justify-center items-center'>
+        <div className='min-h-screen flex justify-center bg-slate-200 items-center'>
 
             <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
 
-            <div className="login border-2 border-black w-[40vw] flex flex-col gap-5 py-5 justify-center items-center">
-                <h1 className='font-bold text-2xl'>Reset Password</h1>
+            <div className="login border-2 border-slate-300 rounded-xl shadow-xl bg-slate-100 w-[90vw] sm:w-[65vw] md:w-[55vw] lg:w-[45vw] flex flex-col gap-5 py-5 justify-center items-center">
+                <h1 className='font-bold text-2xl underline'>Reset Password</h1>
 
 
                 <form className='flex gap-3 flex-col w-[80%]' onSubmit={handleSubmit}>
@@ -86,7 +86,7 @@ const PasswordReset = () => {
 
                     <div className='text-center '>
                         <button type='submit' className='px-4 text-lg  font-bold bg-blue-600 text-white rounded-2xl cursor-pointer'>Save</button>
-                        <div className='mt-2'>Already have an account? <Link to='/login' className='text-blue-800'>Login</Link></div>
+                        <div className='mt-2'>Want to <Link to='/login' className='text-blue-800'>Login</Link></div>
                     </div>
 
                 </form>

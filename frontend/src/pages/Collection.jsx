@@ -92,7 +92,7 @@ function Collection() {
     window.addEventListener('resize', screenResize)
     return () => window.removeEventListener('resize', screenResize)
   }, [])
-  
+
 
   // to make it reusable 
   function FilterContent() {
@@ -143,56 +143,58 @@ function Collection() {
 
 
           {/* right */}
+          {/*  lg:border-none */}
           {/* max-h-[81vh] overflow-y-scroll py-2 scrollbar-hide  border-2 border-red-500 */}
-          <div className="right relative lg:border-none border-t-2 border-black py-2 w-full lg:w-[75%] flex flex-wrap justify-evenly gap-y-4">
+          <div className='relative w-full lg:w-[75%]'>
+            <div className="right max-h-[80vh] overflow-y-scroll scroll-smooth scrollbar-hide py-5 flex flex-wrap justify-evenly gap-y-4">
 
-            {/* filter  */}
-            {!isDesktop && (<div className="left absolute top-[-38px] left-0 rounded-lg border-2 border-black   bg-white w-[170px] lg:w-[20%] flex flex-col gap-3">
-              <div className='flex justify-between items-center'>
-                <h3 className='font-bold text-[16px] ml-3'>FILTER</h3>
-                <span onClick={() => toggleFilter()} className='mr-3'><i className={`fa-solid fa-angle-down text-lg lg:hidden  ${filterToggle === true ? 'rotate-180' : ''}`}></i></span>
+              {/* sorting */}
+              <div className='absolute top-[-32px] right-0'>
+                <select onChange={(e) => handleSort(e.target.value)} className='border-2 border-black font-bold   rounded-md outline-none '>
+                  <option className='text-[12px] lg:text-sm  font-semibold' value="default">Sort By</option>
+                  <option className='text-[12px] lg:text-sm font-semibold' value="price-asc">Price: Low to High</option>
+                  <option className='text-[12px] lg:text-sm font-semibold' value="price-dsc">Price: High to Low</option>
+                </select>
               </div>
-              {/* conditional rendering  */}
-              {filterToggle && (<FilterContent />)}
-            </div>)}
 
-            {/* sorting */}
-            <div className='absolute top-[-35px] right-0'>
-              <select onChange={(e) => handleSort(e.target.value)} className='border-2 border-black font-bold w-[140px] rounded-md outline-none '>
-                <option className='text-[12px] lg:text-sm  font-semibold' value="default">Sort By</option>
-                <option className='text-[12px] lg:text-sm font-semibold' value="price-asc">Price: Low to High</option>
-                <option className='text-[12px] lg:text-sm font-semibold' value="price-dsc">Price: High to Low</option>
-              </select>
-            </div>
-
-
-            {allProducts.filter((collection) => {
-              const categoryMatch = show === "All" || collection.category === show;
-              const typeMatch = type === "All" || collection.type === type;
-              return categoryMatch && typeMatch;
-            })
-              .sort((a, b) => {
-                if (sortedOrder === "price-asc") {
-                  return a.productPrice - b.productPrice
-                }
-                else if (sortedOrder === "price-dsc") {
-                  return b.productPrice - a.productPrice
-                }
-                else {
-                  return 0;
-                }
-              })
-              .map((collection, index) => {
-                return <div key={index} className='shadow-2xl pb-1 rounded-xl h-[250px] w-[170px] lg:h-[300px] lg:w-[230px]'>
-                  <img onClick={() => showProduct(collection)} className='h-[82%] lg:h-[85%] w-full rounded-t-xl cursor-pointer' src={collection.image} alt="productImage" />
-                  <div className='px-1'>
-                    <p className='ProductName overflow-hidden truncate '>{collection.productName}</p>
-                    <p className='Productprice font-semibold'>{currency}{collection.productPrice}</p>
-                  </div>
+              {/* filter  */}
+              {!isDesktop && (<div className="left absolute top-[-38px] left-0 rounded-lg border-2 border-black   bg-white w-[170px] lg:w-[20%] flex flex-col gap-3">
+                <div className='flex justify-between items-center'>
+                  <h3 className='font-bold text-[16px] ml-3'>FILTER</h3>
+                  <span onClick={() => toggleFilter()} className='mr-3'><i className={`fa-solid fa-angle-down text-lg lg:hidden  ${filterToggle === true ? 'rotate-180' : ''}`}></i></span>
                 </div>
-              })
-            }
+                {/* conditional rendering  */}
+                {filterToggle && (<FilterContent />)}
+              </div>)}
 
+              {allProducts.filter((collection) => {
+                const categoryMatch = show === "All" || collection.category === show;
+                const typeMatch = type === "All" || collection.type === type;
+                return categoryMatch && typeMatch;
+              })
+                .sort((a, b) => {
+                  if (sortedOrder === "price-asc") {
+                    return a.productPrice - b.productPrice
+                  }
+                  else if (sortedOrder === "price-dsc") {
+                    return b.productPrice - a.productPrice
+                  }
+                  else {
+                    return 0;
+                  }
+                })
+                .map((collection, index) => {
+                  return <div key={index} className='shadow-2xl pb-1 rounded-xl h-[250px] w-[170px] lg:h-[300px] lg:w-[230px]'>
+                    <img onClick={() => showProduct(collection)} className='h-[82%] lg:h-[85%] w-full rounded-t-xl cursor-pointer' src={collection.image} alt="productImage" />
+                    <div className='px-1'>
+                      <p className='ProductName overflow-hidden truncate '>{collection.productName}</p>
+                      <p className='Productprice font-semibold'>{currency}{collection.productPrice}</p>
+                    </div>
+                  </div>
+                })
+              }
+
+            </div>
           </div>
 
         </div>
