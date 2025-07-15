@@ -8,6 +8,7 @@ const varifyUser = (req, res, next) => {
     else {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+            console.log(decoded)
             req.userId = decoded.id;
             req.userRole = decoded.role;
             next();

@@ -6,6 +6,7 @@ const DashboardItems = () => {
 
   const { currency, allProducts, setAllProducts } = useContext(ProductContext)
 
+    const BASE_URL = import.meta.env.VITE_API_URL
 
   // to delete data from the database
   async function handleDelete(productId) {
@@ -13,7 +14,7 @@ const DashboardItems = () => {
     try {
       const response = await axios({
         method: 'delete',
-        url: `http://localhost:3000/dashbord/remove/${productId}`,
+        url: `${BASE_URL}/dashbord/remove/${productId}`,
         data: allProducts
       })
       console.log(response.data)
@@ -28,7 +29,7 @@ const DashboardItems = () => {
       const token = JSON.parse(localStorage.getItem("token"))
       const response = await axios({
         method: 'put',
-        url: 'http://localhost:3000/dashboard/sizeUpdate',
+        url: `${BASE_URL}/dashboard/sizeUpdate`,
         headers: {
           Authorization: token
         },

@@ -67,11 +67,11 @@ const Hero = () => {
                 <h1 className='font-bold text-2xl text-center'>Latest Collection</h1>
 
                 {/* gap-4 whitespace-nowrap overflow-x-auto */}
-                <div id='latestScroll' className='collection  mt-5 flex overflow-x-scroll gap-5 justify-evenly gap-y-5 scroll-smooth snap-x snap-mandatory scrollbar-hide '>
+                <div id='latestScroll' className='p-1 collection mt-5 flex overflow-x-scroll gap-5 justify-evenly gap-y-5 scroll-smooth snap-x snap-mandatory scrollbar-hide '>
                     {value.allProducts.filter((collection, index) => collection.latestCollection === true)
                         .map((data, index) => {
-                            return <div key={index} className='min-h-[300px]  min-w-[200px] sm:h-[300px] sm:min-w-[230px] shadow-md cursor-pointer snap-start '>
-                                <img onClick={() => handleProduct(data)} className='h-[85%] w-full ' src={data.image} alt="tshirt" />
+                            return <div key={index} className='rounded-xl h-[250px] min-w-[170px] sm:h-[300px] sm:min-w-[230px] shadow-md cursor-pointer snap-start '>
+                                <img onClick={() => handleProduct(data)} className='sm:h-[85%] h-[82%] w-full rounded-t-xl' src={data.image} alt="tshirt" />
                                 <div className='ml-1'>
                                     <p className='ProductName truncate overflow-hidden whitespace-nowrap w-full '>{data.productName}</p>
                                     <p className='Productprice font-semibold'>{value.currency}{data.productPrice}</p>
@@ -97,11 +97,11 @@ const Hero = () => {
             <div className="bestSeller mx-auto py-10 w-[full] lg:w-[90%] ">
                 <h1 className='font-bold text-2xl text-center'>Best Seller</h1>
                 {/* scroll-smooth snap-x snap-mandatory  */}
-                <div id='bestSeller' className='collection mt-5 flex overflow-x-scroll gap-5 justify-evenly gap-y-5 scrollbar-hide scroll-smooth snap-x snap-mandatory'>
+                <div id='bestSeller' className='collection p-1 mt-5 flex overflow-x-scroll gap-5 justify-evenly gap-y-5 scrollbar-hide scroll-smooth snap-x snap-mandatory'>
                     {value.allProducts.filter((collection, index) => collection.bestSeller === true)
                         .map((data, index) => {
-                            return <div key={index} className='min-h-[300px] min-w-[200px] sm:h-[300px] sm:min-w-[230px] shadow-md cursor-pointer snap-start'>
-                                <img onClick={() => handleProduct(data)} className='h-[85%] w-full ' src={data.image} alt="itemImage" />
+                            return <div key={index} className='rounded-xl h-[250px] min-w-[170px] sm:h-[300px] sm:min-w-[230px] shadow-md cursor-pointer snap-start'>
+                                <img onClick={() => handleProduct(data)} className=' h-[82%] sm:h-[85%] w-full rounded-t-xl ' src={data.image} alt="itemImage" />
                                 <div className='ml-1'>
                                     <p className='ProductName truncate overflow-hidden whitespace-nowrap w-full '>{data.productName}</p>
                                     <p className='Productprice font-semibold'>{value.currency}{data.productPrice}</p>

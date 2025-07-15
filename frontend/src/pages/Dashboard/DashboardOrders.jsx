@@ -8,13 +8,11 @@ import axios from 'axios'
 const DashboardOrders = () => {
 
   const [activated, setActivated] = useState(null)
-  // console.log(activated)
   const [trackStatus, setTrackStatus] = useState('')
-  console.log(trackStatus)
   const { orders, setOrders } = useContext(OrderContext)
-  // console.log(orders)
   const { subTotal, setSubTotal, deliveryFee, currency } = useContext(CartContext)
-
+  const orderStatus = ['Shipped', 'Out Of Delivery', 'Delivered']
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   // to toggle activated index 
   function toggleBtn(index) {
@@ -28,12 +26,12 @@ const DashboardOrders = () => {
 
 
   async function updateStatus(orderId, dropdownValue) {
-
     try {
       const token = JSON.parse(localStorage.getItem("token"))
+
       const response = await axios({
         method: 'put',
-        url: 'http://localhost:3000/orders/update-Status',
+        url: `${BASE_URL}/orders/update-Status`,
         headers: {
           Authorization: token
         },
@@ -50,9 +48,6 @@ const DashboardOrders = () => {
       console.log("there is  an error", error)
     }
   }
-
-
-  const orderStatus = ['shipped', 'Out Of Delivery', 'delivered']
 
   return (
 
@@ -119,11 +114,9 @@ const DashboardOrders = () => {
               {activated === index && (
                 <div className="absolute right-0 top-10 z-10 border border-white bg-gray-900 py-1 px-2 rounded-lg flex flex-col gap-1 items-center justify-center">
                   {orderStatus.map((dropdown, index) => (
-                    <p
-                      key={index}
-                      onClick={() => {
-                        updateStatus(order._id, dropdown);
-                      }}
+                    <p key={index} onClick={() => {
+                      updateStatus(order._id, dropdown);
+                    }}
                       className="font-semibold text-sm cursor-pointer rounded-md hover:bg-gray-700 py-1 px-2"
                     >
                       {dropdown}
@@ -136,68 +129,6 @@ const DashboardOrders = () => {
         ))}
       </div>
     </div>
-
-
-
-    // <div>
-    //   <div className=' max-h-[83vh] overflow-y-auto border border-white py-4 flex flex-col gap-3'>
-    //     {orders.map((order, index) => {
-    //       return (
-    //         <div key={index} className="orderBox border border-white m-1 p-4 flex justify-around w-[95%] mx-auto rounded-xl">
-    //           <span className='icon '><i className="fa-solid fa-box border border-white text-4xl p-1"></i></span>
-    //           {/* first */}
-    //           <div className=' w-[480px] border border-white'>
-    //             {order.cartProducts.map((product, index) => {
-    //               return (<div key={index} className='products detail'>
-    //                 <p>{product.productName} <span>| Quantity:{product.quantity} |</span> <span>Size: {product.selectedSize}</span></p>
-    //               </div>)
-    //             })}
-
-    //             <div className="userDetails border border-white">
-    //               <p className='font-bold py-2'>{order.userDetails.firstName} {order.userDetails.lastName}</p>
-    //               <p>{order.userDetails.street}</p>
-    //               <p><span className='city'>{order.userDetails.city}</span>,<span>{order.userDetails.country}</span>,<span>{order.userDetails.zipCode}</span></p>
-    //               <p>{order.userDetails.phone}</p>
-    //             </div>
-    //           </div>
-
-    //           {/* second */}
-    //           <div className='flex flex-col border border-white'>
-    //             <div className='pb-1 min-w-[170px]   '>
-    //               <p className='items pb-1 font-bold'>items: {order.cartProducts.length}</p>
-    //               <p >Method: {order.payment === 'Cash On Delivery' ? 'COD' : 'Stripe'}</p>
-    //               <p >Payment: {order.payment === "Cash On Delivery" ? "Pending" : "done"}</p>
-    //               <p >date: {new Date(order.date).toLocaleDateString()}</p>
-    //             </div>
-
-    //             {/* third */}
-    //             <div>
-    //               <p className=' py-1  w-full border-t-2 border-white'><b>Total: </b>{order.cartProducts.reduce((acc, product) => acc + (product.productPrice * product.quantity), 0) + parseInt(deliveryFee)}</p>
-    //             </div>
-
-    //           </div>
-    //           {/* fourth */}
-    //           <div className='relative border border-white'>
-    //             <div className='border relative  border-white flex gap-2 justify-center items-center rounded-lg py-1 px-2 h-9 w-[150px] text-center '>
-    //               <span>{order.status}</span>
-    //               <i onClick={() => { toggleBtn(index) }} className="fa-solid fa-ellipsis-vertical absolute right-2.5 top-2.5 cursor-pointer"></i>
-    //             </div>
-
-    //             {/* showDropDown */}
-    //             {activated === index && (<div className='absolute right-0 top-10  z-10 border border-white bg-gray-900 py-1 px-2 rounded-lg flex flex-col gap-1 items-center justify-center'>
-    //               {orderStatus.map((dropdown, index) => {
-    //                 return (<p key={index} onClick={() => { updateStatus(order._id, dropdown) }} className='font-semibold text-sm cursor-pointer rounded-md hover:bg-gray-700 py-1 px-2'>{dropdown}</p>)
-    //               })}
-    //             </div>)}
-
-    //           </div>
-    //         </div>)
-    //     })}
-    //   </div>
-
-
-    // </div>
-
   )
 }
 

@@ -6,6 +6,8 @@ const DashboardAdd = () => {
 
   const value = useContext(ProductContext)
 
+  const BASE_URL = import.meta.env.VITE_API_URL
+
   const [data, setData] = useState({
     image: '',
     subImage1: '',
@@ -44,7 +46,7 @@ const DashboardAdd = () => {
     try {
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/dashbord/products',
+        url: `${BASE_URL}/dashbord/products`,
         data: data
       })
       // const { sucess, message } = response;

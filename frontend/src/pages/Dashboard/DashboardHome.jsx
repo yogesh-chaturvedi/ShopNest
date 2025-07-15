@@ -51,7 +51,7 @@ const DashboardHome = () => {
                 <div className={`left transform transition-transform duration-300 ease-out ${showHamburger === true ? ' flex' : 'hidden'} bg-black h-[90vh] md:flex fixed z-20 md:relative border-r border-gray-400 w-[190px] flex-col gap-2 `}>
                     <div className=' flex items-center justify-evenly border-b-2 border-white'>
                         <h3 className='font-bold text-2xl text-center py-2'>Overwiew</h3>
-                        <span className='md:hidden' onClick={() => { setShowHamburger(false) }}><i className="fa-solid fa-xmark text-2xl"></i></span>
+                        <span className='md:hidden px-1.5 rounded-full hover:bg-gray-800 cursor-pointer' onClick={() => { setShowHamburger(false) }}><i className="fa-solid fa-xmark text-xl"></i></span>
                     </div>
                     <ul className=' flex flex-col items-center gap-2 '>
                         {sidebarValues.map((value, index) => {

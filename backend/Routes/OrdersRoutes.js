@@ -36,7 +36,6 @@ router.post('/save', VarifyUser, async (req, res) => {
 router.get('/fetch', VarifyUser, async (req, res) => {
     try {
         let order;
-
         if (req.userRole === "admin") {
             order = await UserOrders.find({})
             // console.log(order)
@@ -56,6 +55,7 @@ router.get('/fetch', VarifyUser, async (req, res) => {
 router.put('/update-Status', VarifyUser, async (req, res) => {
     try {
         const { orderId, dropdownValue } = req.body
+        console.log(orderId, dropdownValue)
         if (req.userRole !== 'admin') {
             return res.status(400).json({ message: "you can't do it", success: false })
         }

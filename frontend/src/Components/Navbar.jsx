@@ -194,7 +194,7 @@ function Navbar() {
             </nav>
 
             {/* for mobile */}
-            {sidebar && (<div className={`menu h-[100vh] absolute right-0 top-0 bg-slate-300 w-[25vw] z-50 border-l border-black `}>
+            {sidebar && (<div className={`menu h-[100vh] absolute right-0 top-0 bg-slate-300 w-[150px] lg:w-[200px] z-50 border-l border-black `}>
                 <div className='flex gap-3 items-center'>
                     <span><i onClick={() => setSidebar(false)} className="fa-solid fa-xmark text-2xl pt-1 ml-1"></i></span>
                     <p className='font-bold text-2xl'>Menu</p>

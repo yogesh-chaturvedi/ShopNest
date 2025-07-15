@@ -138,6 +138,7 @@ function Collection() {
               <h3 className='font-bold text-2xl ml-3'>FILTER</h3>
               <span onClick={() => toggleFilter()} className='mr-3'><i className={`fa-solid fa-angle-down text-xl lg:hidden  ${filterToggle === true ? 'rotate-180' : ''}`}></i></span>
             </div>
+            {/* filter page for large screen */}
             <FilterContent />
           </div>)}
 
@@ -184,7 +185,7 @@ function Collection() {
                   }
                 })
                 .map((collection, index) => {
-                  return <div key={index} className='shadow-2xl pb-1 rounded-xl h-[250px] w-[170px] lg:h-[300px] lg:w-[230px]'>
+                  return <div key={index} className='shadow-2xl pb-1 rounded-xl  h-[250px] w-[170px] lg:h-[300px] lg:w-[230px]'>
                     <img onClick={() => showProduct(collection)} className='h-[82%] lg:h-[85%] w-full rounded-t-xl cursor-pointer' src={collection.image} alt="productImage" />
                     <div className='px-1'>
                       <p className='ProductName overflow-hidden truncate '>{collection.productName}</p>
