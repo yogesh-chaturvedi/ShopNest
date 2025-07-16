@@ -162,11 +162,11 @@ const Product = () => {
                 {/* related products */}
                 <div className="relatedProducts mx-auto mt-10 py-10 w-full lg:w-[90%] ">
                     <h1 className='font-bold text-2xl text-center'>Related Products</h1>
-                    <div className='collection mt-5 flex overflow-x-scroll scrollbar-hide gap-4 justify-evenly gap-y-5'>
+                    <div className='collection p-1 mt-5 flex overflow-x-scroll scrollbar-hide gap-4 justify-evenly gap-y-5'>
                         {value.allProducts.filter((collection) => collection.category === category)
                             .map((data, index) => {
-                                return <div key={index} className='min-h-[300px] min-w-[200px] sm:h-[300px] sm:min-w-[230px] shadow-xl cursor-pointer '>
-                                    <img onClick={() => handleProduct(data)} className='h-[85%] w-full rounded-t-xl ' src={data.image} alt="tshirt" />
+                                return <div key={index} className='h-[250px] min-w-[170px] sm:h-[300px] sm:min-w-[230px] shadow-xl cursor-pointer'>
+                                    <img onClick={() => handleProduct(data)} className='h-[82%] sm:h-[85%] w-full rounded-t-xl ' src={data.image} alt="tshirt" />
                                     <div className='pl-1'>
                                         <p className='ProductName truncate overflow-hidden whitespace-nowrap w-full '>{data.productName}</p>
                                         <p className='Productprice font-semibold'>{value.currency}{data.productPrice}</p>

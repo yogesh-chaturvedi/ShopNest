@@ -7,8 +7,10 @@ const UserOrders = require('../Models/Orders')
 
 //  to save orders in db
 router.post('/save', VarifyUser, async (req, res) => {
+    console.log('inside order route')
     const { userDetails, cartItems, payment, totalPrice } = req.body
     try {
+         console.log('inside try')
         const user = await UserModel.findById(req.userId)
         if (user) {
             const orders = new UserOrders({

@@ -16,7 +16,7 @@ const DeliveryAndPayment = () => {
 
     const [totalPrice, setTotalPrice] = useState(0)
 
-const BASE_URL = import.meta.env.VITE_API_URL
+    const BASE_URL = import.meta.env.VITE_API_URL
 
     // adding the delivery fee and subtotal 
     useEffect(() => {

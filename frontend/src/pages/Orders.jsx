@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
 import { CartContext } from '../context/CartContext'
-import { assets } from '../assets/Assets'
 import { OrderContext } from '../context/OrdersContext'
 import { ToastContainer, toast } from 'react-toastify';
 

@@ -147,7 +147,7 @@ function Collection() {
           {/*  lg:border-none */}
           {/* max-h-[81vh] overflow-y-scroll py-2 scrollbar-hide  border-2 border-red-500 */}
           <div className='relative w-full lg:w-[75%]'>
-            <div className="right max-h-[80vh] overflow-y-scroll scroll-smooth scrollbar-hide py-5 flex flex-wrap justify-evenly gap-y-4">
+            <div className="right max-h-[80vh] min-h-[80vh] overflow-y-scroll scroll-smooth scrollbar-hide py-5 flex flex-wrap justify-evenly gap-y-4">
 
               {/* sorting */}
               <div className='absolute top-[-32px] right-0'>

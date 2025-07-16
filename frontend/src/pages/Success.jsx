@@ -41,12 +41,16 @@ const Success = () => {
             hasPlacedOrder.current = true;
 
             try {
-
                 const token = JSON.parse(localStorage.getItem('token'))
                 const userDetails = JSON.parse(localStorage.getItem('userDetails'))
                 const cartItems = JSON.parse(localStorage.getItem('cartItems'))
                 const totalPrice = JSON.parse(localStorage.getItem('totalPrice'))
                 const payment = JSON.parse(localStorage.getItem('payment'))
+                // it checks if all these present or not
+                if (!userDetails || !cartItems || !totalPrice || !payment || !token) {
+                    console.log("Missing data for order placement");
+                    return;
+                }
 
                 const response = await axios({
                     method: 'post',
