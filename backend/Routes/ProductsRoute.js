@@ -6,15 +6,14 @@ const varifyUser = require('../Middlewares/VarifyUser')
 // to post data
 router.post('/products', async (req, res) => {
   try {
+    console.log(req.body)
     const product = new ProductModel(req.body)
     await product.save()
-    console.log(req.body)
     res.status(200).json({ message: "Product Is Saved Successfully", success: true })
   }
   catch (error) {
     res.status(400).json({ message: "something went wrong", success: false, error })
   }
-
 })
 
 // to get data
@@ -26,12 +25,10 @@ router.get('/all', async (req, res) => {
   catch (error) {
     res.status(400).json({ message: "something went wrong", success: false, error })
   }
-
 })
 
 
 // to update available sizes
-
 router.put('/sizeUpdate', varifyUser, async (req, res) => {
   try {
     const { sizeKey, value, itemsId } = req.body

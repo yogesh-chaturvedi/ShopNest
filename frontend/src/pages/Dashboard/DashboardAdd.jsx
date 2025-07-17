@@ -7,6 +7,7 @@ const DashboardAdd = () => {
   const value = useContext(ProductContext)
 
   const BASE_URL = import.meta.env.VITE_API_URL
+  console.log(BASE_URL)
 
   const [data, setData] = useState({
     image: '',
@@ -33,7 +34,6 @@ const DashboardAdd = () => {
       XXXXL: false,
     }
   })
-
   function handleChange(e) {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
@@ -41,15 +41,15 @@ const DashboardAdd = () => {
 
   // to add data in database
   async function handleSubmit(e) {
+    console.log('submit')
     e.preventDefault()
-    // console.log(data)
     try {
       const response = await axios({
         method: 'post',
-        url: `${BASE_URL}/dashbord/products`,
+        url: `${BASE_URL}/dashboard/products`,
         data: data
       })
-      // const { sucess, message } = response;
+      const { success, message } = response.data;
       console.log(response.data);
     }
     catch (error) {
