@@ -9,12 +9,15 @@ router.post('/products', async (req, res) => {
     console.log(req.body)
     const product = new ProductModel(req.body)
     await product.save()
-    res.status(200).json({ message: "Product Is Saved Successfully", success: true })
+    res.status(200).json({ message: "New Product Added Successfully", success: true })
   }
   catch (error) {
     res.status(400).json({ message: "something went wrong", success: false, error })
   }
 })
+
+
+
 
 // to get data
 router.get('/all', async (req, res) => {
@@ -26,6 +29,8 @@ router.get('/all', async (req, res) => {
     res.status(400).json({ message: "something went wrong", success: false, error })
   }
 })
+
+
 
 
 // to update available sizes
@@ -66,7 +71,7 @@ router.put('/sizeUpdate', varifyUser, async (req, res) => {
 router.delete('/remove/:id', async (req, res) => {
   try {
     const product = await ProductModel.findByIdAndDelete(req.params.id)
-    res.status(200).json({ message: "Product Is deleted Successfully", success: true })
+    res.status(200).json({ message: "Product Is Deleted Successfully", success: true })
   }
   catch (error) {
     res.status(400).json({ message: "something went wrong", success: false, error })

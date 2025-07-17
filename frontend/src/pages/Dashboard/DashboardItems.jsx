@@ -1,23 +1,35 @@
 import React, { useContext, useEffect } from 'react'
 import axios from 'axios'
 import { ProductContext } from '../../context/ProductContext'
+import { ToastContainer, toast } from 'react-toastify'
 
 const DashboardItems = () => {
 
   const { currency, allProducts, setAllProducts } = useContext(ProductContext)
+  const BASE_URL = import.meta.env.VITE_API_URL
 
-    const BASE_URL = import.meta.env.VITE_API_URL
 
   // to delete data from the database
   async function handleDelete(productId) {
-    // const productToBeRemoved = productId
     try {
       const response = await axios({
         method: 'delete',
-        url: `${BASE_URL}/dashbord/remove/${productId}`,
+        url: `${BASE_URL}/dashboard/remove/${productId}`,
         data: allProducts
       })
-      console.log(response.data)
+      const { success, message, error } = response.data
+      if (success) {
+        toast(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
     }
     catch (error) {
       console.log("there is an error")
@@ -51,6 +63,9 @@ const DashboardItems = () => {
   return (
 
     <div className="p-2 border-t-2 border-white">
+
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+
       <div className="p-2 flex flex-col gap-2 max-h-[83vh] py-8 overflow-y-auto scrollbar-hide">
         {allProducts.map((product, index) => (
           <div

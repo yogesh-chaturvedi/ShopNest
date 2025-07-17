@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import { ProductContext } from '../../context/ProductContext'
+import { ToastContainer, toast } from 'react-toastify'
 
 const DashboardAdd = () => {
 
@@ -50,6 +51,18 @@ const DashboardAdd = () => {
         data: data
       })
       const { success, message } = response.data;
+      if (success) {
+        toast(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
       console.log(response.data);
     }
     catch (error) {
@@ -62,6 +75,7 @@ const DashboardAdd = () => {
 
   return (
     <div>
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
       {/* form */}
       <div className='border-t-2 border-white max-h-[90vh] overflow-y-auto p-2'>
         <form className='border-2 border-white bg-gray-900 h-auto  rounded-2xl flex flex-col gap-3 sm:gap-4   w-[95%] sm:w-[85%] md:w-[60%] lg:w-[50%]  mx-auto mt-5 p-4' onSubmit={handleSubmit}>
