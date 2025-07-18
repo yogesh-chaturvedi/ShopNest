@@ -54,7 +54,7 @@ const DashboardOrders = () => {
       <div className="max-h-[83vh] overflow-y-auto py-8 flex flex-col gap-3 scrollbar-hide">
         {[...orders].sort((a, b) => new Date(b.date) - new Date(a.date))
           .map((order, index) => (
-            <div key={index} className={`orderBox border-2 border-gray-700 m-1 p-4 flex flex-col lg:flex-row justify-around gap-4 w-[95%] mx-auto rounded-xl ${order.status === 'Delivered' ? 'bg-gray-500' : ""}`}>
+            <div key={index} className={`orderBox border-2 border-gray-700 m-1 p-4 flex flex-col lg:flex-row justify-around gap-4 w-[95%] mx-auto rounded-xl ${order.status === 'Delivered' ? 'bg-gray-500 line-through' : ""}`}>
               {/* Icon */}
               <span className="icon self-start">
                 <i className="fa-solid fa-box border border-gray-700  text-3xl rounded-md sm:text-4xl p-1"></i>

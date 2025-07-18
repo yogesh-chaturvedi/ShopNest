@@ -48,7 +48,7 @@ const DashboardHome = () => {
 
             <div className=' h-[90vh] flex'>
                 {/* left */}
-                <div className={`left transform transition-transform duration-300 ease-out ${showHamburger === true ? ' flex' : 'hidden'} bg-black h-[90vh] md:flex fixed z-20 md:relative border-r border-gray-400 w-[190px] flex-col gap-2 `}>
+                <div className={`left transform transition-transform duration-300 ease-out ${showHamburger === true ? ' flex' : 'hidden'} bg-black h-[90vh] md:flex fixed z-20 md:relative border-r border-white w-[190px] flex-col gap-2 `}>
                     <div className=' flex items-center justify-evenly border-b-2 border-white'>
                         <h3 className='font-bold text-2xl text-center py-2'>Overwiew</h3>
                         <span className='md:hidden px-1.5 rounded-full hover:bg-gray-800 cursor-pointer' onClick={() => { setShowHamburger(false) }}><i className="fa-solid fa-xmark text-xl"></i></span>
@@ -58,8 +58,8 @@ const DashboardHome = () => {
                             return (<li key={index} onClick={() => { handleCurrent(value) }} className='font-semibold cursor-pointer text-lg w-[80%] text-center py-1 rounded-xl hover:bg-gray-800'>{value}</li>)
                         })}
                     </ul>
-                    <div className='logout absolute bottom-6 left-10'>
-                        <span onClick={() => handleLogout()} className='border border-white rounded-lg px-2 py-1 pb-2 cursor-pointer font-bold hover:bg-blue-600'>Logout</span>
+                    <div className='logout absolute bottom-6 left-14 md:left-13 lg:left-12'>
+                        <span onClick={() => handleLogout()} className='rounded-lg px-2 py-1 pb-2 cursor-pointer font-bold bg-red-700 hover:bg-red-800 '>Logout</span>
                     </div>
                 </div>
 
