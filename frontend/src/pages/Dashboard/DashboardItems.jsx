@@ -70,7 +70,7 @@ const DashboardItems = () => {
         {allProducts.map((product, index) => (
           <div
             key={product._id}
-            className="storedProducts rounded-2xl w-full xl:w-[90%] mx-auto border-2 border-white relative flex flex-col md:flex-row items-center justify-between p-3 gap-4"
+            className="storedProducts rounded-2xl w-full xl:w-[90%] mx-auto border-2 border-gray-700 relative flex flex-col md:flex-row items-center justify-between p-3 gap-4"
           >
             {/* Product Image */}
             <img

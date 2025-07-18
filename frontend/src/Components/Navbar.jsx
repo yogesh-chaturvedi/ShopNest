@@ -4,6 +4,7 @@ import { CartContext } from '../context/CartContext';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { ProductContext } from '../context/ProductContext';
+import { assets } from '../assets/Assets';
 
 function Navbar() {
     const navigate = useNavigate()
@@ -142,6 +143,7 @@ function Navbar() {
             <nav className='flex justify-between items-center mx-auto w-full lg:w-[90%] py-4 '>
                 {/* logo */}
                 <div className="logo font-extrabold mr-2 lg:mr-10 text-lg sm:text-2xl lg:w-32 ml-1 lg:ml-0">ShopNest</div>
+
 
                 {/* tabs */}
                 <ul className='hidden lg:flex px-5 gap-10 font-semibold items-center'>
