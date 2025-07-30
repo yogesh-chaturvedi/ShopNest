@@ -1,6 +1,7 @@
 # 🛒 ShopNest
 
-**ShopNest** is a full-stack e-commerce web application built using the MERN (MongoDB, Express, React, Node.js) stack. It supports user authentication, product browsing, search, filtering, cart management, and payment integration.
+**ShopNest – Full-Stack E-Commerce Platform with Generative AI Chatbot** is a comprehensive web application built using the MERN (MongoDB, Express, React, Node.js) stack. It offers seamless user authentication, dynamic product browsing, advanced search and filtering, Pagination, cart and order management, secure payment integration, and an AI-powered chatbot that provides intelligent, real-time support based on the product a user is viewing.
+
 
 ## 🌐 Live Demo
 
@@ -12,7 +13,8 @@
 
 - 🔐 User Authentication (JWT-based)
 - 🛍️ Product Listing with Categories and Sizes
-- 🔎 Search, Sorting, and Filtering
+- 🔎 Pagination, Search, Sorting, and Filtering
+- 💬 AI-powered Chatbot for Product-Related Queries
 - 🛒 Shopping Cart with Quantity Control
 - 📦 Order History and Status Tracking
 - 💳 Payments via Stripe and Cash on Delivery
@@ -21,6 +23,12 @@
 
 ---
 
+### 🤖 AI-Powered Customer Support Chatbot
+- Integrated an AI chatbot using Google Gemini API.
+- Smartly answers product-related queries based on the product page the user is currently viewing.
+- Helps users make informed purchase decisions without leaving the page.
+
+---
 ## 📁 Project Structure
 ```
 /frontend
@@ -60,6 +68,8 @@
 - cors for API Security
 - joi for Input Validation
 
+**AI Integration**  
+- Google Generative AI (Gemini API)
 ---
 
 ## ⚙️ Setup Instructions
@@ -82,6 +92,7 @@ PORT=3000
 MONGO_URL=your_mongodb_uri
 JWT_SECRET_KEY=your_jwt_secret
 STRIPE_SECRET_KEY=your_stripe_key
+GEMINI_API_KEY=your_gemini_api_key
 
 npm run dev
 ```
