@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 const ChatBot = () => {
 
 
-
+    const BASE_URL = import.meta.env.VITE_API_URL
 
     const UserName = JSON.parse(localStorage.getItem('userName'))
     const location = useLocation() || ""
@@ -63,7 +63,7 @@ const ChatBot = () => {
         try {
             const response = await axios({
                 method: 'post',
-                url: 'http://localhost:3000/chatBot/response',
+                url: `${BASE_URL}/chatBot/response`,
                 data: prompt
             })
             const { message, success, error } = response.data
