@@ -12,6 +12,9 @@ const DashboardOrders = () => {
   const { orders, setOrders } = useContext(OrderContext)
   const { subTotal, setSubTotal, deliveryFee, currency } = useContext(CartContext)
   const orderStatus = ['Shipped', 'Out Of Delivery', 'Delivered']
+  const [PaginatedOrder, setPaginatedOrder] = useState([])
+  const [currentPages, setCurrentPages] = useState(1)
+  const [TotalPages, setTotalPages] = useState(50)
   const BASE_URL = import.meta.env.VITE_API_URL;
 
   // to toggle activated index 
@@ -48,11 +51,50 @@ const DashboardOrders = () => {
     }
   }
 
+
+  // previous btn
+  function handlePrev() {
+    if (currentPages <= 1) {
+      return;
+    }
+    setCurrentPages(currentPages - 1);
+  }
+
+  // next btn
+  function handleNext() {
+    if (currentPages >= TotalPages) {
+      return;
+    }
+    setCurrentPages(currentPages + 1);
+  }
+
+  // pagination
+  useEffect(() => {
+    async function pagination() {
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `${BASE_URL}/pagination/orders?currentPage=${currentPages}&limit=5`
+        })
+        const { message, success, data, totalPages } = response.data
+        if (success) {
+          setPaginatedOrder(data)
+          setTotalPages(totalPages)
+        }
+      }
+      catch (error) {
+        console.log("there is an error", error)
+      }
+    }
+    pagination()
+  }, [currentPages])
+
+
   return (
 
     <div className='border-t-2 border-white'>
       <div className="max-h-[83vh] overflow-y-auto py-8 flex flex-col gap-3 scrollbar-hide">
-        {[...orders].sort((a, b) => new Date(b.date) - new Date(a.date))
+        {[...PaginatedOrder].sort((a, b) => new Date(b.date) - new Date(a.date))
           .map((order, index) => (
             <div key={index} className={`orderBox border-2 border-gray-700 m-1 p-4 flex flex-col lg:flex-row justify-around gap-4 w-[95%] mx-auto rounded-xl ${order.status === 'Delivered' ? 'bg-gray-500 line-through' : ""}`}>
               {/* Icon */}
@@ -124,6 +166,13 @@ const DashboardOrders = () => {
               </div>
             </div>
           ))}
+        {/* buttons */}
+        <div className='flex gap-2 items-center justify-center'>
+          <button onClick={handlePrev} type='button' className='px-2 rounded-xl hover:bg-blue-600 transition-all ease-in-out duration-300 bg-blue-500 text-white text-xl '>Prev</button>
+          <span className='text'>{currentPages} of {TotalPages}</span>
+          <button onClick={handleNext} type='button' className='px-2 rounded-xl hover:bg-blue-600 transition-all ease-in-out duration-300 bg-blue-500 text-white text-xl '>Next</button>
+        </div>
+
       </div>
     </div>
   )
