@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { ProductContext } from '../context/ProductContext'
 import { CartContext } from '../context/CartContext'
 import { ToastContainer, toast } from 'react-toastify';
+import ChatBot from '../Components/ChatBot'
 
 const Product = () => {
 
@@ -157,6 +158,11 @@ const Product = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {/* chat bot for cutomer query */}
+                <div className='flex flex-col sm:flex-row gap-5 p-1 mt-10'>
+                    <ChatBot />
                 </div>
 
                 {/* related products */}

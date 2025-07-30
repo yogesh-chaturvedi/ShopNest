@@ -13,6 +13,7 @@ const OrdersRoute = require('./Routes/OrdersRoutes')
 const SearchedRoute = require("./Routes/SearchRoutes")
 const PaymentRoute = require('./Routes/PaymentRoutes')
 const ResetRoute = require('./Routes/ResetRoutes')
+const ChatBotRoute = require('./Routes/ChatBotRoutes')
 
 const port = process.env.PORT || 3000
 
@@ -30,6 +31,7 @@ app.use('/orders', OrdersRoute)
 app.use('/search', SearchedRoute)
 app.use('/payment', PaymentRoute)
 app.use('/password', ResetRoute)
+app.use('/chatBot',ChatBotRoute)
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

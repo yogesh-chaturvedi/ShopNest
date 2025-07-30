@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="left w-full lg:w-[40%] flex flex-col gap-5">
           {/* logo */}
           <div className="logo font-extrabold text-2xl w-32">ShopNest</div>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt impedit, eius labore adipisci ad corrupti rem sapiente ut temporibus doloremque commodi animi aliquid perferendis voluptatem voluptate tempora nobis  </p>
+          <p>ShopNest offers quality products at great prices. Enjoy fast delivery, secure payments, and 24/7 support. Join thousands of happy customers shopping with confidence and ease every day.</p>
         </div>
 
         <div className="right w-full flex justify-evenly mt-5 lg:w-[40%] lg:flex lg:justify-between">
