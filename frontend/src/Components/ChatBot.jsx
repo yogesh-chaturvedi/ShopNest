@@ -35,6 +35,22 @@ const ChatBot = () => {
         setPrompt((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
+    //text formatting function
+    function formattedText(myData) {
+        // Handle bold text (**bold** becomes <strong>bold</strong>)
+        let formatted = myData.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        // Handle italic text (*italic* becomes <em>italic</em>)
+        formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+        // Optional: If you want to add line breaks for paragraphs or newlines
+        formatted = formatted.replace(/\n/g, '<br/>');
+
+        return formatted;
+    }
+
+
+
     async function sendPrompt() {
         // if user send empty message then it will show tost
         const questions = prompt.userQuestion?.trim()
@@ -68,10 +84,11 @@ const ChatBot = () => {
             })
             const { message, success, error } = response.data
             if (success) {
+                const JarvisResponse = formattedText(message)
                 // setLoader(false)
                 setChatHistory((prev) => {
                     const updated = [...prev];
-                    updated[updated.length - 1].answer = message;
+                    updated[updated.length - 1].answer = JarvisResponse;
                     return updated;
                 })
             }
@@ -111,7 +128,7 @@ const ChatBot = () => {
                             <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-blue-500 text-white rounded-l-lg rounded-tr-lg p-3">
                                 <div className="flex items-center mb-2 text-blue-100">
                                     <User size={16} className="mr-2" />
-                                    <span className="text-sm font-medium">{UserName}</span>
+                                    <span className="text-sm font-medium">{UserName ?? 'Guest'}</span>
                                 </div>
                                 <p className="text-sm md:text-base leading-relaxed">{chat.question}</p>
                             </div>
@@ -125,7 +142,7 @@ const ChatBot = () => {
                                     {/*AI Assistant*/}
                                     <span className="text-sm font-medium">JARVIS</span>
                                 </div>
-                                <p className="text-sm md:text-base leading-relaxed">{chat.answer ? chat.answer : <span className="inline-block h-6 w-6 border-4 border-t-blue-400 border-blue-200 rounded-full animate-spin"></span>}</p>
+                                <div className="text-sm md:text-base leading-relaxed">{chat.answer ? (<div dangerouslySetInnerHTML={{ __html: chat.answer }} />) : (<span className="inline-block h-6 w-6 border-4 border-t-blue-400 border-blue-200 rounded-full animate-spin"></span>)}</div>
                             </div>
                         </div>
                     </div>
