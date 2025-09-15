@@ -40,7 +40,7 @@ const Login = () => {
             if (success) {
                 toast(message, {
                     position: "top-center",
-                    autoClose: 1500,
+                    autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: false,
                     pauseOnHover: true,
@@ -51,7 +51,7 @@ const Login = () => {
 
                 setTimeout(() => {
                     naviagte('/')
-                }, 2000);
+                }, 1000);
             }
         }
         catch (error) {

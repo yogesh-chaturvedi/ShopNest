@@ -120,14 +120,14 @@ const Cart = () => {
                 </div>
 
                 {cartItems.length > 0 ? (
-                    <div className=''>
+                    <div>
                         {/* listing items in cart */}
                         {cartItems.map((product, index) => {
-                            return (<div key={index} className="item flex  relative items-center justify-between gap-4 border-b-2 border-black py-3 ">
+                            return (<div key={index} className="item flex relative items-center justify-between gap-4 border-b-2 border-black py-3 ">
                                 <div className='flex gap-4'>
                                     <img className='w-[100px] rounded-xl' src={product.image} alt="tshirt" />
                                     <div className='flex flex-col gap-4'>
-                                        <p className='productName min-w-[220px] md:w-[20vw] truncate overflow-x-hidden font-bold'>{product.productName}</p>
+                                        <p className="productName w-[40vw] sm:w-[40vw] md:w-[30vw] font-bold truncate">{product.productName}</p>
                                         <div className='flex gap-5 items-center'>
                                             <span className='productName font-semibold'><b>{currency}</b>{product.productPrice}</span>
                                             <span className='boxes h-6 w-6 flex items-center justify-center p-4  rounded-md bg-blue-600 text-white'>{product.selectedSize}</span>

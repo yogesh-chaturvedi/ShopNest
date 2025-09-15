@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 const Footer = () => {
   return (
-    <div className='w-full '>
+    <div className='w-full bg-gray-50 border-t-2 border-gray-100'>
       <div className='footer mx-auto w-full px-1 lg:w-[90%] py-10 flex flex-col lg:flex-row lg:justify-between '>
 
         <div className="left w-full lg:w-[40%] flex flex-col gap-5">
@@ -19,8 +19,8 @@ const Footer = () => {
             <ul className='mt-5'>
               <li><NavLink to='/'>Home</NavLink></li>
               <li><NavLink to='/about'>About Us</NavLink></li>
-              <li><NavLink to='/'>Delivery</NavLink></li>
-              <li><NavLink to='/'>Privacy policy</NavLink></li>
+              <li><NavLink to='/delivery'>Delivery</NavLink></li>
+              <li><NavLink to='/policy'>Privacy policy</NavLink></li>
             </ul>
           </div>
 

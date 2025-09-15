@@ -41,6 +41,24 @@ const Product = () => {
                 return;
             }
 
+            // if someone is not login the they will be redirect to login page if they try to add item in cart 
+            if (!token) {
+                toast('You need to login first', {
+                    position: "top-center",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                setTimeout(() => {
+                    navigate('/login')
+                }, 1000);
+                return;
+            }
+
             const newItem = { ...itemToAdd, selectedSize, quantity: 1 }
             const response = await axios({
                 method: 'post',
@@ -50,20 +68,19 @@ const Product = () => {
                 },
                 data: newItem
             })
-            const { message, success, userCart, error } = response.data
+            const { message, success, userCart } = response.data
             setCartItems(userCart)
-            // if (success) {
-            //     toast(message, {
-            //         position: "top-center",
-            //         autoClose: 2000,
-            //         hideProgressBar: false,
-            //         closeOnClick: true,
-            //         pauseOnHover: true,
-            //         draggable: true,
-            //         progress: undefined,
-            //         theme: "dark",
-            //     });
-            // }
+            if (success) {
+                toast(message, {
+                    position: "bottom-right",
+                    autoClose: 2000, // 2s is stable
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false, // don't pause on hover
+                    draggable: true,
+                    theme: "dark",
+                });
+            }
         }
         catch (error) {
             console.log("there is an error", error)
