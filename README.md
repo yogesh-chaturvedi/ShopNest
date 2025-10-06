@@ -77,7 +77,7 @@
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/your-username/ShopNest.git
+git clone https://github.com/yogesh-chaturvedi/ShopNest
 
 cd ShopNest
 ```
