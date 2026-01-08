@@ -22,21 +22,17 @@ router.post('/cart', varifyUser, async (req, res) => {
         await user.save()
 
         res.status(200).json({ message: "Item Added", success: true, userCart: user.userCart })
-        console.log("saved to cart cart clicked")
     }
     catch (error) {
         res.status(400).json({ message: "something went wrong", success: false, error })
     }
 })
 
-
 // to fetch data 
 router.get('/cart', varifyUser, async (req, res) => {
     const user = await userModel.findById(req.userId)
     res.status(200).json({ message: "user found", success: true, userCart: user.userCart })
 })
-
-
 
 // to delete cart data 
 router.delete('/cart', varifyUser, async (req, res) => {
@@ -50,15 +46,13 @@ router.delete('/cart', varifyUser, async (req, res) => {
 
         await user.save()
 
-        res.status(200).json({ message: "item deleted successfully", success: true, userCart: user.userCart })
+        res.status(200).json({ message: "Item deleted successfully", success: true, userCart: user.userCart })
     }
     catch (error) {
         res.status(400).json({ message: "something went wrong", success: false, error })
     }
 
 })
-
-
 
 // to update quantity of products 
 router.put('/cart', varifyUser, async (req, res) => {
@@ -99,7 +93,6 @@ router.put('/cart', varifyUser, async (req, res) => {
     }
 
 })
-
 
 // it runds when someone place order
 router.delete('/remove-allItem', varifyUser, async (req, res) => {

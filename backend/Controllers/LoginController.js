@@ -12,8 +12,15 @@ const loginController = async (req, res) => {
             const isMatch = await bcrypt.compare(password, user.password)
             if (isMatch) {
                 const token = jwt.sign({ email: user.email, id: user._id, role: user.role }, process.env.JWT_SECRET_KEY);
-                // console.log(token)
-                return res.status(200).json({ message: "done", success: true, key: token, userEmail: user.email, userName: user.name, userId: user._id, userRole: user.role })
+
+                // setting token in cookie 
+                res.cookie('Token', token, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'none',
+                    maxAge: 7 * 24 * 60 * 60 * 1000
+                })
+                return res.status(200).json({ message: "Login Successfully", success: true })
             }
             else {
                 return res.status(400).json({ message: "wrong password", success: false })
@@ -28,5 +35,7 @@ const loginController = async (req, res) => {
         return res.status(400).json({ message: "something went wrong", error })
     }
 }
+
+
 
 module.exports = { loginController }

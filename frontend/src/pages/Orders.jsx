@@ -9,7 +9,6 @@ const Orders = () => {
 
     const { currency } = useContext(CartContext)
     const { orders, setOrders } = useContext(OrderContext)
-    // console.log(orders)
 
     return (
         <div>

@@ -12,33 +12,35 @@ const ProductContextProvider = (props) => {
     const BASE_URL = import.meta.env.VITE_API_URL
 
 
-    useEffect(() => {
 
-        async function fetchData() {
-            try {
-                const response = await axios({
-                    method: 'get',
-                    url: `${BASE_URL}/dashboard/all`,
-                })
-                // console.log(response.data.product)
-                const { product, success, message } = response.data
-                if (success) {
-                    setAllProducts(product)
-                }
-                else {
-                    console.log(message)
-                }
+    async function fetchProducts() {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `${BASE_URL}/dashboard/all`,
+                withCredentials: true
+            })
+            // console.log(response.data.product)
+            const { product, success, message } = response.data
+            if (success) {
+                setAllProducts(product)
             }
-            catch (error) {
-                console.log("there is an error", error)
+            else {
+                console.log(message)
             }
         }
+        catch (error) {
+            console.log("there is an error", error)
+        }
+    }
 
-        fetchData()
+    useEffect(() => {
+        fetchProducts()
     }, [])
 
 
     const value = {
+        fetchProducts,
         currency,
         allProducts,
         setAllProducts

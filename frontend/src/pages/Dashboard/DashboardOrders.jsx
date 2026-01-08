@@ -29,18 +29,13 @@ const DashboardOrders = () => {
 
   async function updateStatus(orderId, dropdownValue) {
     try {
-      const token = JSON.parse(localStorage.getItem("token"))
-
       const response = await axios({
         method: 'put',
         url: `${BASE_URL}/orders/update-Status`,
-        headers: {
-          Authorization: token
-        },
-        data: { orderId, dropdownValue }
+        data: { orderId, dropdownValue },
+        withCredentials: true
       })
       const { orders, success, error, message } = response.data
-      // console.log(orders)
       if (success) {
         setOrders(orders)
       }
@@ -74,7 +69,8 @@ const DashboardOrders = () => {
       try {
         const response = await axios({
           method: 'get',
-          url: `${BASE_URL}/pagination/orders?currentPage=${currentPages}&limit=5`
+          url: `${BASE_URL}/pagination/orders?currentPage=${currentPages}&limit=5`,
+          withCredentials: true
         })
         const { message, success, data, totalPages } = response.data
         if (success) {

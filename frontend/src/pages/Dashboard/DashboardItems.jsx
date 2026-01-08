@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 const DashboardItems = () => {
 
-  const { currency, allProducts, setAllProducts } = useContext(ProductContext)
+  const { fetchProducts, currency, allProducts, setAllProducts } = useContext(ProductContext)
   const BASE_URL = import.meta.env.VITE_API_URL
 
 
@@ -15,7 +15,8 @@ const DashboardItems = () => {
       const response = await axios({
         method: 'delete',
         url: `${BASE_URL}/dashboard/remove/${productId}`,
-        data: allProducts
+        data: allProducts,
+        withCredentials: true
       })
       const { success, message, error } = response.data
       if (success) {
@@ -29,6 +30,7 @@ const DashboardItems = () => {
           progress: undefined,
           theme: "dark",
         });
+        fetchProducts();
       }
     }
     catch (error) {
@@ -42,10 +44,8 @@ const DashboardItems = () => {
       const response = await axios({
         method: 'put',
         url: `${BASE_URL}/dashboard/sizeUpdate`,
-        headers: {
-          Authorization: token
-        },
-        data: { sizeKey, value, itemsId }
+        data: { sizeKey, value, itemsId },
+        withCredentials: true
       })
       const { success, error, products, message } = response.data
       if (success) {
@@ -57,7 +57,6 @@ const DashboardItems = () => {
       console.log("there is an error", error)
     }
   }
-
 
 
   return (

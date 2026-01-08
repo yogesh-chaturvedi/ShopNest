@@ -6,18 +6,16 @@ export const OrderContext = createContext()
 
 const OrderContextProvider = (props) => {
     const [orders, setOrders] = useState([])
-     const BASE_URL = import.meta.env.VITE_API_URL
+    const BASE_URL = import.meta.env.VITE_API_URL
 
     useEffect(() => {
         async function fetchOrders() {
             try {
-                const token = JSON.parse(localStorage.getItem("token"));
+                // const token = JSON.parse(localStorage.getItem("token"));
                 const response = await axios({
                     method: 'get',
                     url: `${BASE_URL}/orders/fetch`,
-                    headers: {
-                        Authorization: token
-                    }
+                    withCredentials: true
                 })
                 const { success, message, error, order } = response.data
 

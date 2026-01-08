@@ -32,9 +32,7 @@ const CartContextProvider = (props) => {
                 const response = await axios({
                     method: "get",
                     url: `${BASE_URL}/api/cart`,
-                    headers: {
-                        Authorization: token
-                    }
+                    withCredentials:true
                 })
 
                 const { userCart, success, error, message } = response.data

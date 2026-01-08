@@ -33,7 +33,6 @@ router.post('/save', VarifyUser, async (req, res) => {
 
 })
 
-
 // to get data from orders db
 router.get('/fetch', VarifyUser, async (req, res) => {
     try {
@@ -81,4 +80,3 @@ router.put('/update-Status', VarifyUser, async (req, res) => {
 
 
 module.exports = router
-

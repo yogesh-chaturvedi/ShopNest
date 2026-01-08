@@ -16,9 +16,6 @@ router.post('/products', async (req, res) => {
   }
 })
 
-
-
-
 // to get data
 router.get('/all', async (req, res) => {
   try {
@@ -29,9 +26,6 @@ router.get('/all', async (req, res) => {
     res.status(400).json({ message: "something went wrong", success: false, error })
   }
 })
-
-
-
 
 // to update available sizes
 router.put('/sizeUpdate', varifyUser, async (req, res) => {
@@ -64,9 +58,6 @@ router.put('/sizeUpdate', varifyUser, async (req, res) => {
   }
 })
 
-
-
-
 // to delete data
 router.delete('/remove/:id', async (req, res) => {
   try {
@@ -78,6 +69,5 @@ router.delete('/remove/:id', async (req, res) => {
   }
 
 })
-
 
 module.exports = router

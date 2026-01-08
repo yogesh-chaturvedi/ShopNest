@@ -26,16 +26,11 @@ const Login = () => {
             const response = await axios({
                 method: "post",
                 url: `${BASE_URL}/auth/login`,
-                data: loginData
+                data: loginData,
+                withCredentials: true
             })
 
-            const { success, message, key, userName, userId, userRole, userEmail } = response.data
-
-            localStorage.setItem("userName", JSON.stringify(userName))
-            localStorage.setItem("userId", JSON.stringify(userId))
-            localStorage.setItem("token", JSON.stringify(key))
-            localStorage.setItem("role", JSON.stringify(userRole))
-            localStorage.setItem("userEmail", JSON.stringify(userEmail))
+            const { success, message } = response.data
 
             if (success) {
                 toast(message, {

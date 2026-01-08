@@ -7,6 +7,7 @@ import { ProductContext } from '../context/ProductContext'
 import { CartContext } from '../context/CartContext'
 import { ToastContainer, toast } from 'react-toastify';
 import ChatBot from '../Components/ChatBot'
+import { AuthContext } from '../context/UserContext'
 
 const Product = () => {
 
@@ -14,10 +15,9 @@ const Product = () => {
     const value = useContext(ProductContext)
     const { cartItems, setCartItems } = useContext(CartContext)
 
+    const { user } = useContext(AuthContext)
+
     const [selectedSize, setSelectedSize] = useState(null)
-
-    // console.log(selectedSize)
-
 
     const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -25,7 +25,6 @@ const Product = () => {
     async function addToCart(itemToAdd) {
 
         try {
-            const token = JSON.parse(localStorage.getItem("token"))
             // to ensure that user do not add product without selecting its size;
             if (selectedSize === null) {
                 toast('Please Select Size', {
@@ -42,7 +41,7 @@ const Product = () => {
             }
 
             // if someone is not login the they will be redirect to login page if they try to add item in cart 
-            if (!token) {
+            if (user === null) {
                 toast('You need to login first', {
                     position: "top-center",
                     autoClose: 1000,
@@ -63,20 +62,18 @@ const Product = () => {
             const response = await axios({
                 method: 'post',
                 url: `${BASE_URL}/api/cart`,
-                headers: {
-                    Authorization: token
-                },
-                data: newItem
+                data: newItem,
+                withCredentials: true,
             })
             const { message, success, userCart } = response.data
             setCartItems(userCart)
             if (success) {
                 toast(message, {
                     position: "bottom-right",
-                    autoClose: 2000, // 2s is stable
+                    autoClose: 2000,
                     hideProgressBar: false,
                     closeOnClick: true,
-                    pauseOnHover: false, // don't pause on hover
+                    pauseOnHover: false,
                     draggable: true,
                     theme: "dark",
                 });
@@ -119,7 +116,7 @@ const Product = () => {
     // console.log(_id)
     return (
         <div className='w-full'>
-            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+            {/* <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" /> */}
 
             <Navbar />
 

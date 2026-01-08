@@ -14,13 +14,6 @@ const Hero = () => {
     }
 
 
-    // function scrollRight(idToScroll) {
-    //     const section = document.getElementById(idToScroll)
-    //     section?.scrollBy({ left: 200, behavior: 'smooth' })
-    //     console.log('right Clicked')
-    // }
-
-
     useEffect(() => {
         const section = document.getElementById('latestScroll');
         const autoScroll = () => {
@@ -34,7 +27,6 @@ const Hero = () => {
         const interval = setInterval(autoScroll, 3000);
         return () => clearInterval(interval); // cleanup
     }, []);
-
 
     // bestseller
     useEffect(() => {
@@ -78,16 +70,6 @@ const Hero = () => {
                                 </div>
                             </div>
                         })}
-
-                    {/* to scroll right
-                    <span onClick={() => { scrollRight('latestScroll') }} className='absolute right-0 bg-white/40 backdrop-blur-sm border border-black py-2 px-2 h-[69%] flex items-center shadow-lg hover:shadow-xl transition duration-200 rounded-l-md  scroll-smooth scrollbar-hide'>
-                        <i className="fa-solid fa-arrow-right text-4xl text-black"></i>
-                    </span>
-
-                    {/* to scroll left */}
-                    {/* <span onClick={() => { scrollLeft('latestScroll') }} className='absolute left-0 bg-white/40 backdrop-blur-sm border border-black py-2 px-2 h-[69%] flex items-center shadow-lg hover:shadow-xl transition duration-200 rounded-r-md'>
-                        <i className="fa-solid fa-arrow-left text-4xl text-black"></i>
-                    </span> */}
 
                 </div>
 

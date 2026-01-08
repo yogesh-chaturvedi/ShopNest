@@ -13,19 +13,6 @@ function SignUp() {
 
     const navigate = useNavigate()
 
-    // toast("text copied successfully", {
-    //                 position: "top-center",
-    //                 autoClose: 1500,
-    //                 hideProgressBar: false,
-    //                 closeOnClick: false,
-    //                 pauseOnHover: true,
-    //                 draggable: true,
-    //                 progress: undefined,
-    //                 theme: "dark",
-    //             });
-
-
-
     function handleChange(e) {
         setSignupData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
@@ -40,7 +27,6 @@ function SignUp() {
                 url: `${BASE_URL}/auth/signup`,
                 data: signupData,
             })
-
 
             const { message, error, success } = response.data
             if (success) {

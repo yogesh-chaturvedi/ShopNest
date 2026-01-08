@@ -5,12 +5,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { ProductContext } from '../context/ProductContext';
 import { assets } from '../assets/Assets';
+import { AuthContext } from '../context/UserContext';
 
 function Navbar() {
     const navigate = useNavigate()
-    const token = JSON.parse(localStorage.getItem("token"))
-    const email = JSON.parse(localStorage.getItem("userEmail"))
-    const name = JSON.parse(localStorage.getItem("userName"))
+    // const token = JSON.parse(localStorage.getItem("token"))
+    // const email = JSON.parse(localStorage.getItem("userEmail"))
+    // const name = JSON.parse(localStorage.getItem("userName"))
     const [showProfile, setShowProfile] = useState(false)
     const { cartItems, setCartItems } = useContext(CartContext)
     const [cartVisibility, setCartVisibility] = useState(false)
@@ -22,30 +23,45 @@ function Navbar() {
     const { allProducts, setAllProducts } = useContext(ProductContext)
     const [sidebar, setSidebar] = useState(false)
 
+    const { verifyUser, user, setUser, loading, setLoading } = useContext(AuthContext)
+
     function handleLogin() {
         navigate('/login')
     }
-    function handleLogOut() {
-        localStorage.removeItem("token")
-        localStorage.removeItem("userName")
-        localStorage.removeItem("userId")
-        localStorage.removeItem("role")
-        localStorage.removeItem("userEmail")
-        setCartVisibility(false)
-        setShowProfile(false)
-        navigate('/')
-        toast('LogOut Successfull', {
-            position: "top-center",
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-        });
 
+    async function handleLogOut() {
+        try {
+            const response = await axios({
+                method: 'delete',
+                url: `${BASE_URL}/auth/logout`,
+                withCredentials: true
+            })
+            const { success, message } = response.data
+
+            if (success) {
+                console.log(message)
+                toast(message, {
+                    position: "top-center",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                setShowProfile(false)
+                setTimeout(() => {
+                    navigate('/')
+                }, 1500);
+            }
+
+        }
+        catch (error) {
+            console.log("there is an error", error)
+        }
     }
+
     function usersProfile() {
         // setShow(false)
         if (showProfile === false) {
@@ -84,6 +100,8 @@ function Navbar() {
 
     const BASE_URL = import.meta.env.VITE_API_URL
 
+    console.log('adminrouteUser', user)
+
     // to filter acc to the search text
     useEffect(() => {
         if (location.pathname.includes("collection")) {
@@ -108,7 +126,7 @@ function Navbar() {
     }, [searchedText], location.pathname)
 
     useEffect(() => {
-        token ? setCartVisibility(true) : setCartVisibility(false)
+        user ? setCartVisibility(true) : setCartVisibility(false)
     }, [])
 
     useEffect(() => {
@@ -169,16 +187,17 @@ function Navbar() {
                         <span onClick={() => { handleSearch() }}><i className='fa-solid fa-magnifying-glass text-xl cursor-pointer'></i></span>
                     </span>
 
-                    {token ? (<span className='relative'>
+                    {user ? (<span className='relative'>
                         <i onClick={() => { usersProfile() }} className="fa-solid fa-user text-xl cursor-pointer"></i>
                         {showProfile && (<div className="userProfile absolute right-1 bg-[#1e1e2f] z-50 text-white p-4 rounded-xl shadow-lg w-72">
                             <div className='flex justify-between items-center'>
-                                <p className="text-lg font-bold">{name}</p>
+                                <p className="text-lg font-bold">{user?.name}</p>
                                 <span onClick={() => { setShowProfile(false) }}><i className="fa-solid fa-xmark cursor-pointer"></i></span>
                             </div>
-                            <p className="text-sm text-gray-400">{email}</p>
+                            <p className="text-sm text-gray-400">{user?.email}</p>
                             <p className="text-xs text-green-400 font-semibold">Online</p>
-                            <button onClick={() => { navigate('/orders') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>My Order</button>
+
+                            {user?.role === "admin" ? (<button onClick={() => { navigate('/dashboard') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>View Dashboard</button>) : (<button onClick={() => { navigate('/orders') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>My Order</button>)}
                             <button onClick={() => { handleLogOut() }} className="mt-4 w-full py-2 bg-red-500 hover:bg-red-600 rounded-md">Logout</button>
                         </div>)}
                     </span>) : (<div onClick={() => { handleLogin() }} className='font-semibold cursor-pointer py-0.5 px-2 rounded-md bg-blue-600 text-white '>Login</div>)}

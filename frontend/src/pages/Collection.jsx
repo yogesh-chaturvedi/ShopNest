@@ -19,6 +19,8 @@ function Collection() {
   const location = useLocation()
   const [filterToggle, setFilterToggle] = useState(false)
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024)
+
+
   // console.log(filterToggle)
   useEffect(() => {
     if (location.state?.showTost) {
@@ -126,7 +128,7 @@ function Collection() {
   return (
     <div>
 
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      {/* <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" /> */}
 
       <Navbar />
       <div className="collection w-full px-1 lg:w-[90%] mx-auto py-5">

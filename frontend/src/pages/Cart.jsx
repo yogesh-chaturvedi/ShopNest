@@ -21,9 +21,7 @@ const Cart = () => {
             const response = await axios({
                 method: 'delete',
                 url: `${BASE_URL}/api/cart`,
-                headers: {
-                    Authorization: token
-                },
+                withCredentials: true,
                 data: { itemId, itemSize }
             })
             const { userCart, success, message, error } = response.data
@@ -55,9 +53,7 @@ const Cart = () => {
             const response = await axios({
                 method: 'put',
                 url: `${BASE_URL}/api/cart`,
-                headers: {
-                    Authorization: token
-                },
+                withCredentials: true,
                 data: valuesToSend
             })
             const { success, message, error, userCart } = response.data
@@ -110,7 +106,7 @@ const Cart = () => {
     return (
         <div>
 
-            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+            {/* <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" /> */}
 
             <Navbar />
             <div className="cart w-full px-1 lg:w-[90%] mx-auto py-5">

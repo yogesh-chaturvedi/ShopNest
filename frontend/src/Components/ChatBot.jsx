@@ -4,13 +4,15 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { useContext } from 'react';
+import { AuthContext } from '../context/UserContext';
 
 const ChatBot = () => {
 
-
+    const { verifyUser, user, setUser, loading, setLoading } = useContext(AuthContext)
     const BASE_URL = import.meta.env.VITE_API_URL
 
-    const UserName = JSON.parse(localStorage.getItem('userName'))
+    // const UserName = JSON.parse(localStorage.getItem('userName'))
     const location = useLocation() || ""
     const chatContainerRef = useRef(null);
     const chatEndRef = useRef(null);
@@ -22,7 +24,6 @@ const ChatBot = () => {
     })
 
     const [chatHistory, setChatHistory] = useState([])
-    // const [loader, setLoader] = useState(null)
 
     // to scroll to bottom on every chat 
     useEffect(() => {
@@ -37,13 +38,10 @@ const ChatBot = () => {
 
     //text formatting function
     function formattedText(myData) {
-        // Handle bold text (**bold** becomes <strong>bold</strong>)
         let formatted = myData.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
-        // Handle italic text (*italic* becomes <em>italic</em>)
         formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
-        // Optional: If you want to add line breaks for paragraphs or newlines
         formatted = formatted.replace(/\n/g, '<br/>');
 
         return formatted;
@@ -68,7 +66,6 @@ const ChatBot = () => {
             return;
         }
 
-        // setLoader(true)
         setShowChat(true)
         setPrompt((prev) => ({ ...prev, userQuestion: '' }))
         setChatHistory((prev) => ([...prev, {
@@ -80,7 +77,8 @@ const ChatBot = () => {
             const response = await axios({
                 method: 'post',
                 url: `${BASE_URL}/chatBot/response`,
-                data: prompt
+                data: prompt,
+                withCredentials: true
             })
             const { message, success, error } = response.data
             if (success) {
@@ -94,7 +92,6 @@ const ChatBot = () => {
             }
         }
         catch (error) {
-            // setLoader(false);
             console.log('some error', error)
         }
     }
@@ -128,7 +125,7 @@ const ChatBot = () => {
                             <div className="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl bg-blue-500 text-white rounded-l-lg rounded-tr-lg p-3">
                                 <div className="flex items-center mb-2 text-blue-100">
                                     <User size={16} className="mr-2" />
-                                    <span className="text-sm font-medium">{UserName ?? 'Guest'}</span>
+                                    <span className="text-sm font-medium">{user?.name ?? 'Guest'}</span>
                                 </div>
                                 <p className="text-sm md:text-base leading-relaxed">{chat.question}</p>
                             </div>
@@ -150,7 +147,7 @@ const ChatBot = () => {
                 <div ref={chatEndRef}></div>
 
             </div > : <div className="mx-auto py-1 px-2 mt-10">
-                <h1 className="text-md md:text-5xl font-bold text-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">Hello {UserName ? UserName.toUpperCase() : 'Guest'}
+                <h1 className="text-md md:text-5xl font-bold text-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">Hello {user?.name ? user?.name.toUpperCase() : 'Guest'}
                 </h1>
             </div>}
 

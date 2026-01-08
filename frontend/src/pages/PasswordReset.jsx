@@ -18,7 +18,7 @@ const PasswordReset = () => {
     // console.log(restData)
 
     const BASE_URL = import.meta.env.VITE_API_URL
-    
+
     async function handleSubmit(e) {
         e.preventDefault();
 

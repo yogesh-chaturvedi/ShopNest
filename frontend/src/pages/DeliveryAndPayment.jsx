@@ -45,24 +45,19 @@ const DeliveryAndPayment = () => {
     // to remove the cart item when order is placed
     async function removeCartItem() {
         try {
-            const token = JSON.parse(localStorage.getItem("token"))
             const response = await axios({
                 method: 'delete',
                 url: `${BASE_URL}/api/remove-allItem`,
-                headers: {
-                    Authorization: token
-                },
+                withCredentials: true
             })
             const { userCart, message, error, success } = response.data
 
             if (success) {
                 setCartItems(userCart)
             }
-
-            console.log(response.data)
         }
         catch (error) {
-            console.log("there is an error", error)
+            console.log("removeCartItem error", error)
         }
     }
 
@@ -79,21 +74,18 @@ const DeliveryAndPayment = () => {
 
         if (!firstName || !lastName || !email || !street || !city || !state || !zipCode || !country || !phone) {
             alert("Please fill in all delivery details");
-            return; // Stop execution if any field is empty
+            return;
         }
 
         const orderDetails = { userDetails, cartItems, payment, totalPrice }
-        const token = JSON.parse(localStorage.getItem("token"))
         // it runs when user select cash on delivery
         if (payment === 'Cash On Delivery') {
             try {
                 const resopnse = await axios({
                     method: 'post',
                     url: `${BASE_URL}/orders/save`,
-                    headers: {
-                        Authorization: token
-                    },
-                    data: orderDetails
+                    data: orderDetails,
+                    withCredentials: true
                 })
                 const { success, error, message } = resopnse.data
                 if (success) {
@@ -117,10 +109,9 @@ const DeliveryAndPayment = () => {
                     })
 
                 }
-                // if (success) {
-                //     navigate('/orders')
-                // }
-                // // console.log(resopnse.data)
+                if (success) {
+                    navigate('/orders')
+                }
             }
             catch (error) {
                 console.log("there is an error", error)
@@ -140,7 +131,8 @@ const DeliveryAndPayment = () => {
                 const response = await axios({
                     method: 'post',
                     url: `${BASE_URL}/payment/create-checkout-session`,
-                    data: { cartItems }
+                    data: { cartItems },
+                    withCredentials: true
                 })
                 console.log(response.data)
                 const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
@@ -156,10 +148,10 @@ const DeliveryAndPayment = () => {
 
     return (
         <div>
-            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+            {/* <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" /> */}
 
             <Navbar />
-            <div className='dilivery&Payment w-full lg:w-[90%] px-1 py-5 my-10 mx-auto flex flex-col items-center gap-5 md:flex-row md:justify-evenly lg:justify-between'>
+            <div className='dilivery&Paymentm max-h-[calc(100vh-64px)] w-full lg:w-[90%] px-1 py-5 my-10 mx-auto flex flex-col items-center gap-5 md:flex-row md:justify-evenly lg:justify-between'>
                 {/* left */}
                 <div className="leftForm w-full px-2 lg:px-0 md:w-[48%]">
                     <h2 className='font-bold text-2xl'>DELIVERY INFORMATION</h2>

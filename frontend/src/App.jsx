@@ -14,26 +14,11 @@ import Orders from './pages/Orders'
 import Success from './pages/Success'
 import Cancel from './pages/Cancel'
 import PasswordReset from './pages/PasswordReset'
+import UsersProtectedRoutes from './Components/UsersProtectedRoutes'
+import AdminProtectedRoutes from './Components/AdminProtectedRoutes'
 
 const App = () => {
-  const token = JSON.parse(localStorage.getItem("token"))
-  const role = JSON.parse(localStorage.getItem("role"))
 
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (token && role === "admin") {
-      navigate('/dashboard')
-    }
-  }, [token, role])
-
-  const PrivateRoute = ({ children }) => {
-    return token && role === 'user' ? children : <Navigate to="/login" />
-  }
-
-  const AdminRoute = ({ children }) => {
-    return token && role === 'admin' ? children : <Navigate to='login' />
-  }
 
   return (
     <div className='text-black'>
@@ -50,12 +35,18 @@ const App = () => {
         <Route path={'/product/:item'} element={<Product />} />
 
 
-        {/* private routes */}
+        {/* user private routes */}
+        <Route element={<UsersProtectedRoutes />}>
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/delivery&payment' element={<DeliveryAndPayment />} />
+          <Route path='/orders' element={<Orders />} />
+        </Route>
 
-        <Route path='/cart' element={<PrivateRoute><Cart /></PrivateRoute>} />
-        <Route path='/delivery&payment' element={<PrivateRoute><DeliveryAndPayment /></PrivateRoute>} />
-        <Route path='/orders' element={<PrivateRoute><Orders /></PrivateRoute>} />
-        <Route path='/dashboard' element={<AdminRoute><DashboardHome /></AdminRoute>} />
+        {/* admin private routes */}
+        <Route element={<AdminProtectedRoutes />}>
+          <Route path='/dashboard' element={<DashboardHome />} />
+        </Route>
+
       </Routes>
     </div>
   )

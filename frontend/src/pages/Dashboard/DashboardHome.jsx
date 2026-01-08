@@ -4,6 +4,8 @@ import DashboardAdd from './DashboardAdd';
 import DashboardOrders from './DashboardOrders';
 import { useNavigate } from 'react-router-dom';
 import DashboardItems from './DashboardItems';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const DashboardHome = () => {
 
@@ -15,12 +17,33 @@ const DashboardHome = () => {
     //     setCurrent(arg)
     // }
 
-    function handleLogout() {
-        localStorage.removeItem('token')
-        localStorage.removeItem('userId')
-        localStorage.removeItem('role')
-        localStorage.removeItem('userName')
-        naviagte('/')
+    async function handleLogout() {
+        try {
+            const response = await axios({
+                method: 'delete',
+                url: `${import.meta.env.VITE_API_URL}/auth/logout`,
+                withCredentials: true
+            })
+            const { message, success } = response.data;
+            if (success) {
+                toast(message, {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                setTimeout(() => {
+                    naviagte('/')
+                }, 1000);
+            }
+        }
+        catch (error) {
+            console.error('admin logout error', error)
+        }
     }
 
     const [showHamburger, setShowHamburger] = useState(false)
@@ -37,7 +60,6 @@ const DashboardHome = () => {
         setCurrent(value)
         setShowHamburger(false)
     }
-
 
     const sidebarValues = ['Add Items', 'Listed Items', 'View Orders']
 
