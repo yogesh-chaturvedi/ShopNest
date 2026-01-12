@@ -19,7 +19,6 @@ const AuthContextProvider = (props) => {
             const { success, message, error, User } = response.data
 
             if (success) {
-                console.log(message)
                 setUser(User)
             }
 

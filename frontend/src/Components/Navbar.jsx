@@ -100,8 +100,6 @@ function Navbar() {
 
     const BASE_URL = import.meta.env.VITE_API_URL
 
-    console.log('adminrouteUser', user)
-
     // to filter acc to the search text
     useEffect(() => {
         if (location.pathname.includes("collection")) {
@@ -151,7 +149,6 @@ function Navbar() {
             setSidebar(false)
         }
     }
-    console.log(sidebar)
 
     return (
         <div className='w-full relative bg-gray-50 shadow-lg'>

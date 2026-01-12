@@ -25,8 +25,8 @@ router.delete('/logout', (req, res) => {
 
     res.clearCookie("Token", {
         httpOnly: true,
-        secure: true,          
-        sameSite: 'none',       
+        secure: false,          
+        sameSite: 'lax',       
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
     res.status(200).json({ message: "Logout successfully", success: true })
