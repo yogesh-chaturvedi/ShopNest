@@ -75,7 +75,7 @@ router.post('/response', async (req, res) => {
 
         if (!aiText) {
             return res.status(500).json({
-                message: 'No response generated',
+                message: 'No Response Generated',
                 success: false
             });
         }
