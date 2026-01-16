@@ -16,6 +16,9 @@ import Cancel from './pages/Cancel'
 import PasswordReset from './pages/PasswordReset'
 import UsersProtectedRoutes from './Components/UsersProtectedRoutes'
 import AdminProtectedRoutes from './Components/AdminProtectedRoutes'
+import DashboardAdd from './pages/Dashboard/DashboardAdd'
+import DashboardItems from './pages/Dashboard/DashboardItems'
+import DashboardOrders from './pages/Dashboard/DashboardOrders'
 
 const App = () => {
 
@@ -44,7 +47,9 @@ const App = () => {
 
         {/* admin private routes */}
         <Route element={<AdminProtectedRoutes />}>
-          <Route path='/dashboard' element={<DashboardHome />} />
+          <Route path='/dashboard/add-item' element={<DashboardAdd />} />
+          <Route path='/dashboard/items' element={<DashboardItems />} />
+          <Route path='/dashboard/orders' element={<DashboardOrders />} />
         </Route>
 
       </Routes>

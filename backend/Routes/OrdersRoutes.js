@@ -10,7 +10,7 @@ router.post('/save', VarifyUser, async (req, res) => {
     console.log('inside order route')
     const { userDetails, cartItems, payment, totalPrice } = req.body
     try {
-         console.log('inside try')
+        console.log('inside try')
         const user = await UserModel.findById(req.userId)
         if (user) {
             const orders = new UserOrders({
@@ -56,7 +56,7 @@ router.get('/fetch', VarifyUser, async (req, res) => {
 router.put('/update-Status', VarifyUser, async (req, res) => {
     try {
         const { orderId, dropdownValue } = req.body
-        console.log(orderId, dropdownValue)
+
         if (req.userRole !== 'admin') {
             return res.status(400).json({ message: "you can't do it", success: false })
         }

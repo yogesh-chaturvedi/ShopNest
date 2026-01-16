@@ -1,16 +1,5 @@
 const mongoose = require('mongoose')
 
-// const sizeSchema = new mongoose.Schema({
-//     available: {
-//         required: true,
-//         type: Boolean
-//     },
-//     quantity: {
-//         type: Number,
-//         required: true
-//     }
-// }, { _id: false });     //to prevent generating id for each size
-
 
 const ProductSchema = new mongoose.Schema({
     productName: {

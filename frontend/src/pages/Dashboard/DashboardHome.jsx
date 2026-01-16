@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import DashboardItems from './DashboardItems';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import DashboardSidebar from '../../Components/DashboardSidebar';
 
 const DashboardHome = () => {
 
@@ -66,11 +67,9 @@ const DashboardHome = () => {
     return (
         <div className='bg-black text-white'>
 
-            <h1 className='font-bold border-b-2 border-white text-3xl h-[10vh] py-5 text-center'>Admin Pannel</h1>
-
-            <div className=' h-[90vh] flex'>
+            <div className='flex'>
                 {/* left */}
-                <div className={`left transform transition-transform duration-300 ease-out ${showHamburger === true ? ' flex' : 'hidden'} bg-black h-[90vh] md:flex fixed z-20 md:relative border-r border-white w-[190px] flex-col gap-2 `}>
+                {/* <div className={`left transform transition-transform duration-300 ease-out ${showHamburger === true ? ' flex' : 'hidden'} bg-black h-[90vh] md:flex fixed z-20 md:relative border-r border-white w-[190px] flex-col gap-2 `}>
                     <div className=' flex items-center justify-evenly border-b-2 border-white'>
                         <h3 className='font-bold text-2xl text-center py-2'>Overwiew</h3>
                         <span className='md:hidden px-1.5 rounded-full hover:bg-gray-800 cursor-pointer' onClick={() => { setShowHamburger(false) }}><i className="fa-solid fa-xmark text-xl"></i></span>
@@ -83,25 +82,27 @@ const DashboardHome = () => {
                     <div className='logout absolute bottom-6 left-14 md:left-13 lg:left-12'>
                         <span onClick={() => handleLogout()} className='rounded-lg px-2 py-1 pb-2 cursor-pointer font-bold bg-red-700 hover:bg-red-800 '>Logout</span>
                     </div>
-                </div>
+                </div> */}
+
+                <DashboardSidebar />
 
                 {/* right */}
-                <div className="right w-full">
+                {/* <div className="right w-full">
                     {/* addProduct  */}
-                    <div className='flex gap-3 items-center'>
+                {/* <div className='flex gap-3 items-center'>
                         <span onClick={() => { handleHamburger() }} className='ml-2 md:hidden'> <i className="fa-solid fa-bars text-2xl cursor-pointer"></i></span>
                         <h1 className='font-bold text-2xl py-2 w-[90%] mx-auto'>{current}</h1>
-                    </div>
-                    {/* <span className=' md:hidden block mb-4 ml-2'></span> */}
-                    {current === 'Add Items' && (<DashboardAdd />)}
+                    </div> */}
 
-                    {/* deleteProduct */}
-                    {current === 'Listed Items' && (<DashboardItems />)}
+                {/* {current === 'Add Items' && (<DashboardAdd />)} */}
 
-                    {/* viewOrder */}
-                    {current === 'View Orders' && (<DashboardOrders />)}
+                {/* deleteProduct */}
+                {/* {current === 'Listed Items' && (<DashboardItems />)} */}
 
-                </div>
+                {/* viewOrder */}
+                {/* {current === 'View Orders' && (<DashboardOrders />)} */}
+
+                {/* </div> */}
             </div>
 
         </div >

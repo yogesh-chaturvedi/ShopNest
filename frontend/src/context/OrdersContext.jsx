@@ -8,32 +8,35 @@ const OrderContextProvider = (props) => {
     const [orders, setOrders] = useState([])
     const BASE_URL = import.meta.env.VITE_API_URL
 
-    useEffect(() => {
-        async function fetchOrders() {
-            try {
-                // const token = JSON.parse(localStorage.getItem("token"));
-                const response = await axios({
-                    method: 'get',
-                    url: `${BASE_URL}/orders/fetch`,
-                    withCredentials: true
-                })
-                const { success, message, error, order } = response.data
 
-                if (success) {
-                    setOrders(order)
-                }
+    async function fetchOrders() {
+        try {
+            // const token = JSON.parse(localStorage.getItem("token"));
+            const response = await axios({
+                method: 'get',
+                url: `${BASE_URL}/orders/fetch`,
+                withCredentials: true
+            })
+            const { success, message, error, order } = response.data
 
-                // console.log(response.data)
+            if (success) {
+                setOrders(order)
             }
-            catch (error) {
-                console.log("there is an error", error)
-            }
+
+            // console.log(response.data)
         }
+        catch (error) {
+            console.log("there is an error", error)
+        }
+    }
+
+
+    useEffect(() => {
         fetchOrders()
     }, [])
 
 
-    const value = { orders, setOrders }
+    const value = {fetchOrders, orders, setOrders }
 
     return (
         <OrderContext.Provider value={value}>

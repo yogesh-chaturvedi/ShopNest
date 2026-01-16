@@ -194,7 +194,7 @@ function Navbar() {
                             <p className="text-sm text-gray-400">{user?.email}</p>
                             <p className="text-xs text-green-400 font-semibold">Online</p>
 
-                            {user?.role === "admin" ? (<button onClick={() => { navigate('/dashboard') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>View Dashboard</button>) : (<button onClick={() => { navigate('/orders') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>My Order</button>)}
+                            {user?.role === "admin" ? (<button onClick={() => { navigate('/dashboard/add-item') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>View Dashboard</button>) : (<button onClick={() => { navigate('/orders') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>My Order</button>)}
                             <button onClick={() => { handleLogOut() }} className="mt-4 w-full py-2 bg-red-500 hover:bg-red-600 rounded-md">Logout</button>
                         </div>)}
                     </span>) : (<div onClick={() => { handleLogin() }} className='font-semibold cursor-pointer py-0.5 px-2 rounded-md bg-blue-600 text-white '>Login</div>)}
