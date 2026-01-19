@@ -20,12 +20,30 @@ const orderSchema = new mongoose.Schema({
     },
     cartProducts: [
         {
-            productName: String,
-            productPrice: Number,
-            selectedSize: String,
-            quantity: Number,
-            image: String,
-            productId: String
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Product'
+            },
+            productName: {
+                type: 'String',
+                required: true
+            },
+            productPrice: {
+                type: 'Number',
+                required: true
+            },
+            selectedSize: {
+                type: 'String',
+                required: true
+            },
+            quantity: {
+                type: 'Number',
+                required: true
+            },
+            image: {
+                type: 'String',
+                required: true
+            },
         }
     ],
     status: {
@@ -40,11 +58,7 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    date: {
-        type: Date,
-        default: Date.now
-    },
-});
+}, { timestamps: true });
 
 
 const Orders = mongoose.model('Orders', orderSchema);

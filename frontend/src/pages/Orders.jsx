@@ -4,19 +4,25 @@ import Footer from '../Components/Footer'
 import { CartContext } from '../context/CartContext'
 import { OrderContext } from '../context/OrdersContext'
 import { ToastContainer, toast } from 'react-toastify';
+import { useEffect } from 'react'
 
 const Orders = () => {
 
     const { currency } = useContext(CartContext)
-    const { orders, setOrders } = useContext(OrderContext)
+    const { fetchOrders, orders, setOrders } = useContext(OrderContext)
+
+    useEffect(() => {
+        fetchOrders()
+    }, [])
 
     return (
         <div>
+
             <Navbar />
-            <div className="orders w-[90%] mx-auto py-5">
+            <div className="orders min-h-screen overflow-y-auto w-[90%] mx-auto py-5">
                 {/* Outer map: Iterate over each order object */}
-                {[...orders].sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .map((order, orderIndex) => {
+                {orders.length === 0 ? (<div className='flex items-center justify-center mt-32 text-4xl font-bold text-black'>No orders available</div>) : (
+                    orders.map((order, orderIndex) => {
                         return (
                             <div key={orderIndex} className="item flex flex-col relative gap-4 border-b-2 border-gray-300 py-3 mb-4">
                                 {/* Display Order ID and Payment */}
@@ -63,7 +69,8 @@ const Orders = () => {
 
                             </div>
                         );
-                    })}
+                    }))
+                }
             </div>
             <Footer />
         </div>

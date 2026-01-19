@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 })
 
 app.use(cookieParser())
-// http://localhost:5173
+
 app.use(cors({
     origin: 'https://shop-nest-livid.vercel.app',
     credentials: true

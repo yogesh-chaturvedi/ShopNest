@@ -11,7 +11,6 @@ const DeliveryAndPayment = () => {
     const paymentMethods = ['Stripe', 'Cash On Delivery']
     const { cartItems, setCartItems, deliveryFee, currency, subTotal, setSubTotal } = useContext(CartContext)
     const navigate = useNavigate()
-    // console.log(cartItems._id, cartItems.selectedSize)
     const [payment, setPayment] = useState(null)
 
     const [totalPrice, setTotalPrice] = useState(0)
@@ -42,25 +41,6 @@ const DeliveryAndPayment = () => {
         setUserDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    // to remove the cart item when order is placed
-    async function removeCartItem() {
-        try {
-            const response = await axios({
-                method: 'delete',
-                url: `${BASE_URL}/api/remove-allItem`,
-                withCredentials: true
-            })
-            const { userCart, message, error, success } = response.data
-
-            if (success) {
-                setCartItems(userCart)
-            }
-        }
-        catch (error) {
-            console.log("removeCartItem error", error)
-        }
-    }
-
     // to submit order and its details 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -77,7 +57,7 @@ const DeliveryAndPayment = () => {
             return;
         }
 
-        const orderDetails = { userDetails, cartItems, payment, totalPrice }
+        const orderDetails = { userDetails, payment, totalPrice }
         // it runs when user select cash on delivery
         if (payment === 'Cash On Delivery') {
             try {
@@ -100,7 +80,6 @@ const DeliveryAndPayment = () => {
                         theme: "dark",
                     });
                     setPayment(null)
-                    removeCartItem()
                     setSubTotal(0)
 
                     // it iterates on each key of userdetails state and makes it key value an empty string again
@@ -122,19 +101,13 @@ const DeliveryAndPayment = () => {
         if (payment === "Stripe") {
             try {
 
-                // storing data in localstorage so that if payment is done success i can send it to backend's order route...
-                localStorage.setItem("userDetails", JSON.stringify(userDetails));
-                localStorage.setItem("cartItems", JSON.stringify(cartItems));
-                localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
-                localStorage.setItem("payment", JSON.stringify(payment));
-
                 const response = await axios({
                     method: 'post',
                     url: `${BASE_URL}/payment/create-checkout-session`,
-                    data: { cartItems },
+                    data:orderDetails,
                     withCredentials: true
                 })
-                console.log(response.data)
+
                 const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
                 await stripe.redirectToCheckout({ sessionId: response.data.id });
             }
@@ -148,7 +121,6 @@ const DeliveryAndPayment = () => {
 
     return (
         <div>
-            {/* <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" /> */}
 
             <Navbar />
             <div className='dilivery&Paymentm max-h-[calc(100vh-64px)] w-full lg:w-[90%] px-1 py-5 my-10 mx-auto flex flex-col items-center gap-5 md:flex-row md:justify-evenly lg:justify-between'>

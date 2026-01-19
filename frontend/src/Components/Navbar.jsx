@@ -9,21 +9,17 @@ import { AuthContext } from '../context/UserContext';
 
 function Navbar() {
     const navigate = useNavigate()
-    // const token = JSON.parse(localStorage.getItem("token"))
-    // const email = JSON.parse(localStorage.getItem("userEmail"))
-    // const name = JSON.parse(localStorage.getItem("userName"))
     const [showProfile, setShowProfile] = useState(false)
-    const { cartItems, setCartItems } = useContext(CartContext)
-    const [cartVisibility, setCartVisibility] = useState(false)
     const [showSearch, setShowSearch] = useState(false)
     const [clear, setClear] = useState(false)
     const [searchedText, setSearchedText] = useState('')
     const inputRef = useRef()
     const location = useLocation()
-    const { allProducts, setAllProducts } = useContext(ProductContext)
     const [sidebar, setSidebar] = useState(false)
 
-    const { verifyUser, user, setUser, loading, setLoading } = useContext(AuthContext)
+    const { cartItems } = useContext(CartContext)
+    const { setAllProducts } = useContext(ProductContext)
+    const { user } = useContext(AuthContext)
 
     function handleLogin() {
         navigate('/login')
@@ -123,23 +119,6 @@ function Navbar() {
         }
     }, [searchedText], location.pathname)
 
-    useEffect(() => {
-        user ? setCartVisibility(true) : setCartVisibility(false)
-    }, [])
-
-    useEffect(() => {
-        function handleVisibility() {
-            if (cartItems.length >= 1) {
-                setCartVisibility(true)
-            }
-            else {
-                setCartVisibility(false)
-            }
-        }
-
-        handleVisibility()
-
-    }, [cartItems])
 
     function handleSideBar() {
         if (sidebar === false) {
@@ -171,6 +150,7 @@ function Navbar() {
 
                 {/* buttons */}
                 <div className='flex justify-evenly gap-3 lg:gap-5 items-center'>
+
                     {/* search feature */}
                     <span className='searchBtn relative w-full sm:w-[60%] lg:w-[20vw] flex gap-2 items-center'>
                         {/* inputField */}
@@ -194,14 +174,19 @@ function Navbar() {
                             <p className="text-sm text-gray-400">{user?.email}</p>
                             <p className="text-xs text-green-400 font-semibold">Online</p>
 
-                            {user?.role === "admin" ? (<button onClick={() => { navigate('/dashboard/add-item') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>View Dashboard</button>) : (<button onClick={() => { navigate('/orders') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>My Order</button>)}
+                            {user?.role === "admin" ? (
+                                <button onClick={() => { navigate('/dashboard/add-item') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>View Dashboard</button>
+                            ) : (<button onClick={() => { navigate('/orders') }} className='font-semibold px-2 mt-2 bg-red-500 hover:bg-red-600 rounded-md cursor-pointer'>My Order</button>
+                            )}
+
                             <button onClick={() => { handleLogOut() }} className="mt-4 w-full py-2 bg-red-500 hover:bg-red-600 rounded-md">Logout</button>
                         </div>)}
                     </span>) : (<div onClick={() => { handleLogin() }} className='font-semibold cursor-pointer py-0.5 px-2 rounded-md bg-blue-600 text-white '>Login</div>)}
 
+                    {/* cart */}
                     <span className='bag relative'>
                         <Link to='/cart'><i className="fa-solid fa-bag-shopping cursor-pointer text-xl"></i></Link>
-                        {cartVisibility && (<span className='itemCount min-h-5 min-w-5 flex items-center justify-center bg-red-600 text-sm text-white font-semibold rounded-full absolute left-2 top-3 d'>{cartItems.length}</span>)}
+                        {user?.role === "user" && (<span className='itemCount min-h-5 min-w-5 flex items-center justify-center bg-red-600 text-sm text-white font-semibold rounded-full absolute left-2 top-3 d'>{cartItems ? cartItems.items?.length : '0'}</span>)}
                     </span>
 
                     {/* for mobile screen */}

@@ -15,47 +15,50 @@ const CartContextProvider = (props) => {
 
     // to calculate subtotal  
     useEffect(() => {
-        const subtotal = cartItems.reduce((acc, item) => {
-            return acc + (item.productPrice * item.quantity)
+
+        if (!cartItems?.items) {
+            setSubTotal(0)
+            return
+        }
+
+        const subtotal = cartItems?.items?.reduce((acc, item) => {
+            const price = Number(item.product.productPrice) || 0
+            const quantity = Number(item.quantity) || 0
+            return acc + price * quantity
         }, 0)
         setSubTotal(subtotal)
+
     }, [cartItems])
 
 
     const BASE_URL = import.meta.env.VITE_API_URL
 
-    // to add cart items in usestate 
-    useEffect(() => {
-        async function getCartData() {
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await axios({
-                    method: "get",
-                    url: `${BASE_URL}/api/cart`,
-                    withCredentials:true
-                })
 
-                const { userCart, success, error, message } = response.data
-                if (success) {
-                    setCartItems(userCart)
-                }
-                else {
-                    console.log(message)
-                }
-                // console.log(response.data)
-            }
-            catch (error) {
-                console.log("there is an error", error)
-            }
+    async function fetchUsersCart() {
+        try {
+            const response = await axios({
+                method: "get",
+                url: `${BASE_URL}/api/fetch`,
+                withCredentials: true
+            })
 
+            const { userCart, success, error, message } = response.data
+            if (success) {
+                setCartItems(userCart)
+            }
+        }
+        catch (error) {
+            console.log("there is an error", error)
         }
 
-        getCartData()
+    }
 
+    useEffect(() => {
+        fetchUsersCart()
     }, [])
 
 
-    const value = { cartItems, setCartItems, deliveryFee, currency, subTotal, setSubTotal }
+    const value = { fetchUsersCart, cartItems, setCartItems, deliveryFee, currency, subTotal, setSubTotal }
     return (
         < CartContext.Provider value={value} >
             {props.children}

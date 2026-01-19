@@ -2,50 +2,77 @@ const express = require('express')
 const router = express.Router()
 const VarifyUser = require('../Middlewares/VarifyUser')
 const UserModel = require('../Models/User')
-const UserOrders = require('../Models/Orders')
+const OrderModel = require('../Models/Orders')
+const CartModel = require('../Models/Cart')
+const Stripe = require('stripe')
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 
 //  to save orders in db
 router.post('/save', VarifyUser, async (req, res) => {
-    console.log('inside order route')
     const { userDetails, cartItems, payment, totalPrice } = req.body
     try {
-        console.log('inside try')
-        const user = await UserModel.findById(req.userId)
-        if (user) {
-            const orders = new UserOrders({
-                userId: req.userId,
-                userDetails,
-                cartProducts: cartItems,
-                payment,
-                totalPrice
-            })
-            await orders.save()
-            res.status(200).json({ message: "order placed Successfully", success: true })
+
+        const cart = await CartModel.findOne({ Uid: req.userId }).populate('items.product')
+
+        if (!cart || cart.items.length === 0) {
+            return res.status(404).json({ message: "Cart is empty", success: false })
         }
+
         else {
-            res.status(401).json({ message: "Unauthorized user", success: false })
+
+            cartProducts = cart.items.map(item => ({
+                product: item.product._id,
+                productName: item.product.productName,
+                productPrice: item.product.productPrice,
+                selectedSize: item.selectedSize,
+                quantity: item.quantity,
+                image: item.product.image,
+            }))
+
+            const order = new OrderModel(
+                {
+                    userId: req.userId,
+                    userDetails,
+                    cartProducts,
+                    payment,
+                    totalPrice,
+                }
+            )
+
+            cart.items = [];
+            await cart.save();
+            await order.save();
+            return res.status(200).json({ message: "Order saved successfully", success: true })
         }
     }
     catch (error) {
         res.status(400).json({ message: "something went wrong", success: false, error })
     }
-
 })
 
 // to get data from orders db
 router.get('/fetch', VarifyUser, async (req, res) => {
     try {
-        let order;
+        let order
         if (req.userRole === "admin") {
-            order = await UserOrders.find({})
-            // console.log(order)
-            return res.status(200).json({ message: "your orders", success: true, order })
+            order = await OrderModel.find({})
+
+            if (!order) {
+                return res.status(404).json({ message: "Order not found", success: false })
+            }
+
+            return res.status(200).json({ message: "Orders fetched successfully", success: true, order })
         }
         else {
-            order = await UserOrders.find({ userId: req.userId })
+            order = await OrderModel.find({ userId: req.userId })
+
+            if (!order) {
+                return res.status(404).json({ message: "User's Order not found", success: false })
+            }
+
+            return res.status(200).json({ message: "Orders fetched successfully", success: true, order })
         }
-        res.status(200).json({ message: "your orders", success: true, order })
     }
     catch (error) {
         res.status(400).json({ message: "unable to find your orders", success: false, error })
@@ -61,7 +88,7 @@ router.put('/update-Status', VarifyUser, async (req, res) => {
             return res.status(400).json({ message: "you can't do it", success: false })
         }
 
-        const order = await UserOrders.findById(orderId)
+        const order = await OrderModel.findById(orderId)
         if (!order) {
             return res.status(400).json({ message: "there is no such user with this id", success: false })
         }
@@ -70,13 +97,45 @@ router.put('/update-Status', VarifyUser, async (req, res) => {
         await order.save()
 
         // sending all usermodel back
-        const allUsers = await UserOrders.find({})
+        const allUsers = await OrderModel.find({})
         return res.status(200).json({ message: "updated successfully", success: true, orders: allUsers })
     }
     catch (error) {
         return res.status(400).json({ message: "something went wrong", success: false, error })
     }
 })
+
+router.post('/verify-payment', VarifyUser, async (req, res) => {
+    try {
+        const { sessionId } = req.body
+
+        const session = await stripe.checkout.sessions.retrieve(sessionId)
+
+        if (session.payment_status !== 'paid') {
+            return res.status(400).json({ success: false })
+        }
+
+        const orderId = session.metadata.orderId
+
+        // 🔹 Mark order as paid
+        await OrderModel.findByIdAndUpdate(orderId, {
+            status: "Order Placed"
+        })
+
+        // 🔹 Clear cart
+        await CartModel.findOneAndUpdate(
+            { Uid: req.userId },
+            { items: [] }
+        )
+
+        res.json({ success: true })
+    }
+    catch (error) {
+        console.error(error)
+        res.status(400).json({ message: "verify-payment route error", success: false })
+    }
+})
+
 
 
 module.exports = router

@@ -1,27 +1,50 @@
 const express = require('express')
 const router = express.Router()
 const userModel = require('../Models/User')
+const CartModel = require('../Models/Cart')
+const ProductModel = require('../Models/Products')
 const varifyUser = require('../Middlewares/VarifyUser')
 
 // to save data
 router.post('/cart', varifyUser, async (req, res) => {
     try {
         const { selectedSize, quantity, productName, productPrice, _id, image } = req.body
-        const user = await userModel.findById(req.userId)
+        const cart = await CartModel.findOne({ Uid: req.userId })
 
-        const isExist = user.userCart.find(item => {
-            return (item._id.toString() === _id.toString() && item.selectedSize === selectedSize)
-        })
+        if (!cart) {
+            const createCart = new CartModel({
+                Uid: req.userId,
+                items: [
+                    {
+                        product: _id,
+                        quantity,
+                        selectedSize,
+                    }
+                ],
+                selectedSize,
+            })
+            await createCart.save()
+            return res.status(200).json({ message: "Item Added Successfully", success: true, userCart: createCart })
 
-        if (isExist) {
-            isExist.quantity = isExist.quantity + quantity
         }
         else {
-            user.userCart.push(req.body)
-        }
-        await user.save()
+            const itemIndex = cart.items.findIndex(item => {
+                return (item.product.toString() === _id.toString() && item.selectedSize === selectedSize);
+            })
 
-        res.status(200).json({ message: "Item Added", success: true, userCart: user.userCart })
+            if (itemIndex > -1) {
+                cart.items[itemIndex].quantity += quantity
+            }
+            else {
+                cart.items.push({
+                    product: _id,
+                    quantity,
+                    selectedSize,
+                })
+            }
+            await cart.save()
+            return res.status(200).json({ message: "Item Added", success: true, userCart: cart })
+        }
     }
     catch (error) {
         res.status(400).json({ message: "something went wrong", success: false, error })
@@ -29,24 +52,28 @@ router.post('/cart', varifyUser, async (req, res) => {
 })
 
 // to fetch data 
-router.get('/cart', varifyUser, async (req, res) => {
-    const user = await userModel.findById(req.userId)
-    res.status(200).json({ message: "user found", success: true, userCart: user.userCart })
+router.get('/fetch', varifyUser, async (req, res) => {
+    const cart = await CartModel.findOne({ Uid: req.userId }).populate({ path: 'items.product', select: '_id productName productPrice category description image' })
+    res.status(200).json({ message: "User's Cart featched Successfully", success: true, userCart: cart })
 })
 
 // to delete cart data 
-router.delete('/cart', varifyUser, async (req, res) => {
+router.delete('/removeItem', varifyUser, async (req, res) => {
     try {
         const { itemId, itemSize } = req.body
-        const user = await userModel.findById(req.userId)
+        const cart = await CartModel.findOne({ Uid: req.userId })
 
-        user.userCart = user.userCart.filter(item => {
-            return !(item._id.toString() === itemId && item.selectedSize.toString() === itemSize)
+        if (!cart) {
+            return res.status(404).json({ message: "Cart not found", success: false, error })
+        }
+
+        cart.items = cart.items.filter(item => {
+            return !(item.product.toString() === itemId && item.selectedSize.toString() === itemSize)
         })
 
-        await user.save()
+        await cart.save()
 
-        res.status(200).json({ message: "Item deleted successfully", success: true, userCart: user.userCart })
+        res.status(200).json({ message: "Item removed successfully", success: true, userCart: cart })
     }
     catch (error) {
         res.status(400).json({ message: "something went wrong", success: false, error })
@@ -55,37 +82,37 @@ router.delete('/cart', varifyUser, async (req, res) => {
 })
 
 // to update quantity of products 
-router.put('/cart', varifyUser, async (req, res) => {
+router.put('/changeQuantity', varifyUser, async (req, res) => {
     try {
         const { itemsId, itemsSize, action } = req.body;
-        const user = await userModel.findById(req.userId);
+        const cart = await CartModel.findOne({ Uid: req.userId });
 
-        if (!user) {
-            return res.status(401).json({ message: "thre are no such user with this id", success: false, error })
+        if (!cart) {
+            return res.status(404).json({ message: "Cart not found", success: false, error })
         }
 
-        const isExist = user.userCart.find(item => {
-            return (item._id.toString() === itemsId && item.selectedSize.toString() === itemsSize)
+        const itemIndex = cart.items.findIndex(item => {
+            return (item.product.toString() === itemsId && item.selectedSize.toString() === itemsSize)
         })
 
-        if (isExist) {
+        if (itemIndex > -1) {
             if (action === "increment") {
-                isExist.quantity += 1
+                cart.items[itemIndex].quantity += 1
             }
             else if (action === "decrement") {
-                if (isExist.quantity === 1) {
-                    return res.status(401).json({ message: "It sholud be atleast 1", success: false })
+                if (cart.items[itemIndex].quantity === 1) {
+                    return res.status(400).json({ message: "It sholud be atleast 1", success: false })
                 }
                 else {
-                    isExist.quantity -= 1
+                    cart.items[itemIndex].quantity -= 1
                 }
             }
             else {
                 return res.status(401).json({ message: "unavailable action", success: false })
             }
 
-            await user.save()
-            return res.status(200).json({ message: "changed successfully", success: true, userCart: user.userCart })
+            await cart.save()
+            return res.status(200).json({ message: "Quantity updated successfully", success: true, userCart: cart })
         }
 
     } catch (error) {
@@ -97,9 +124,10 @@ router.put('/cart', varifyUser, async (req, res) => {
 // it runds when someone place order
 router.delete('/remove-allItem', varifyUser, async (req, res) => {
     try {
-        const user = await userModel.findById(req.userId);
-        if (!user) {
-            return res.status(400).json({ message: "unauthorized user", success: false })
+        const cart = await CartModel.findOne({ Uid: req.userId });
+
+        if (!cart) {
+            return res.status(404).json({ message: "Cart not found", success: false, error })
         }
         else {
             user.userCart = []

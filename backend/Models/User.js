@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user'
     },
+    profileImage: {
+        url: String,
+        public_id: String,
+    },
     userCart: [cartSchema]
 });
 
